@@ -5,6 +5,39 @@
     if (el) el.style.setProperty(prop, value, 'important');
   }
 
+  function utf8ToBase64(str) {
+    const bytes = new TextEncoder().encode(str);
+    let binary = '';
+    bytes.forEach(b => { binary += String.fromCharCode(b); });
+    return btoa(binary);
+  }
+
+  function base64ToUtf8(b64) {
+    const binary = atob(b64);
+    const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+    return new TextDecoder().decode(bytes);
+  }
+
+  function patchWebRCells() {
+    document.querySelectorAll('script[type^="webr-"][type$="-contents"]').forEach(script => {
+      try {
+        const raw = script.textContent.trim();
+        if (!raw) return;
+        const payload = JSON.parse(base64ToUtf8(raw));
+        if (typeof payload.code !== 'string') return;
+        if (!payload.code.includes('options(width = 220')) {
+          payload.code = 'options(width = 220, scipen = 999)\n' + payload.code;
+          script.textContent = utf8ToBase64(JSON.stringify(payload));
+        }
+      } catch (e) {
+        console.warn('Patch WebR ignoré pour une cellule :', e);
+      }
+    });
+  }
+
+  // Important : modifier les payloads avant l'initialisation du runtime WebR.
+  patchWebRCells();
+
   function injectStyle() {
     if (document.getElementById('student-v2-style')) return;
     const style = document.createElement('style');
@@ -93,10 +126,7 @@
         font-size:.86rem!important;
         tab-size:2!important;
       }
-      .student-r-output code {
-        white-space:inherit!important;
-        line-height:inherit!important;
-      }
+      .student-r-output code { white-space:inherit!important; line-height:inherit!important; }
       @media (max-width:1099px) {
         #quarto-content.page-columns { display:block!important; width:100%!important; padding:0 12px!important; }
         #quarto-sidebar-toc-left { width:100%!important; max-width:none!important; }
