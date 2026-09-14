@@ -35,7 +35,6 @@
     });
   }
 
-  // Important : modifier les payloads avant l'initialisation du runtime WebR.
   patchWebRCells();
 
   function injectStyle() {
@@ -101,32 +100,60 @@
       .student-toc-collapsed { display:none!important; }
       .code-toolbar { padding:.45rem!important; gap:.4rem!important; }
       .code-toolbar button { font-size:.82rem!important; padding:.36rem .58rem!important; }
-      .student-r-output, .student-r-output pre, .student-r-output code {
-        background:#fff!important; color:#111827!important;
-      }
-      .student-r-output {
+
+      /* Sorties Quarto Live/WebR : règle exacte du runtime */
+      div.exercise-cell-output.cell-output,
+      div.exercise-cell-output.cell-output-stdout,
+      div.exercise-cell-output.cell-output-stderr {
+        display:block!important;
+        width:100%!important;
+        max-width:100%!important;
+        min-width:0!important;
+        overflow-x:auto!important;
+        overflow-y:visible!important;
+        background:#fff!important;
+        color:#111827!important;
         border:1px solid #d8e2ec!important;
         border-radius:10px!important;
         padding:.8rem 1rem!important;
-        box-shadow:none!important;
-        overflow-x:auto!important;
-        overflow-y:visible!important;
-        max-width:100%!important;
+        box-sizing:border-box!important;
       }
-      .student-r-output pre {
+      div.exercise-cell-output.cell-output pre,
+      div.exercise-cell-output.cell-output-stdout pre,
+      div.exercise-cell-output.cell-output-stderr pre {
         display:block!important;
-        margin:0!important;
-        padding:0!important;
-        white-space:pre!important;
-        overflow:visible!important;
         width:max-content!important;
         min-width:100%!important;
         max-width:none!important;
-        line-height:1.42!important;
-        font-size:.86rem!important;
-        tab-size:2!important;
+        margin:0!important;
+        padding:0!important;
+        overflow:visible!important;
+        background:transparent!important;
+        color:#111827!important;
       }
-      .student-r-output code { white-space:inherit!important; line-height:inherit!important; }
+      div.exercise-cell-output.cell-output pre code,
+      div.exercise-cell-output.cell-output-stdout pre code,
+      div.exercise-cell-output.cell-output-stderr pre code {
+        display:block!important;
+        width:max-content!important;
+        min-width:100%!important;
+        max-width:none!important;
+        white-space:pre!important;
+        word-wrap:normal!important;
+        overflow-wrap:normal!important;
+        word-break:normal!important;
+        background:transparent!important;
+        color:#111827!important;
+        font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace!important;
+        font-size:.95rem!important;
+        line-height:1.45!important;
+      }
+      div.exercise-cell-output.cell-output-stderr pre code { color:#a61b1b!important; }
+
+      .student-r-output { max-width:100%!important; overflow-x:auto!important; }
+      .student-r-output pre { white-space:pre!important; }
+      .student-r-output code { white-space:pre!important; word-wrap:normal!important; overflow-wrap:normal!important; }
+
       @media (max-width:1099px) {
         #quarto-content.page-columns { display:block!important; width:100%!important; padding:0 12px!important; }
         #quarto-sidebar-toc-left { width:100%!important; max-width:none!important; }
@@ -189,34 +216,13 @@
     force(box, 'background', '#ffffff');
     force(box, 'background-color', '#ffffff');
     force(box, 'color', '#111827');
+    force(box, 'width', '100%');
+    force(box, 'max-width', '100%');
     force(box, 'overflow-x', 'auto');
-    box.querySelectorAll('pre, code, span, div').forEach(child => {
-      if (isSourceCode(child)) return;
-      force(child, 'color', '#111827');
-      if (child.tagName === 'PRE') {
-        force(child, 'background', 'transparent');
-        force(child, 'background-color', 'transparent');
-        force(child, 'white-space', 'pre');
-        force(child, 'width', 'max-content');
-        force(child, 'min-width', '100%');
-        force(child, 'max-width', 'none');
-        force(child, 'line-height', '1.42');
-      } else if (child.tagName === 'CODE') {
-        force(child, 'background', 'transparent');
-        force(child, 'background-color', 'transparent');
-        force(child, 'white-space', 'inherit');
-      }
-    });
   }
 
   function fixROutputs() {
-    const candidate = '.qwebr-output-code-area,.qwebr-output-code-stdout,.qwebr-output-code-stderr,.qwebr-output,.quarto-live-output,.cell-output,.cell-output-display,[class*="output"],[class*="console"],[class*="result"],[id*="output"],[id*="console"]';
-    document.querySelectorAll(candidate).forEach(styleOutputBox);
-    document.querySelectorAll('pre').forEach(pre => {
-      if (isSourceCode(pre)) return;
-      const parent = pre.closest(candidate);
-      if (parent) styleOutputBox(parent);
-    });
+    document.querySelectorAll('div.exercise-cell-output, .qwebr-output, .quarto-live-output, .cell-output, .cell-output-display').forEach(styleOutputBox);
   }
 
   function installToolbar() {
