@@ -763,3 +763,35 @@ div[class*="plot"] img {
 .code-toolbar {position:sticky;top:.5rem;z-index:20;display:flex;gap:.6rem;flex-wrap:wrap;padding:.65rem;margin:.8rem 0 1rem;background:rgba(255,255,255,.96);border:1px solid #cbd5e1;border-radius:.6rem;box-shadow:0 4px 14px rgba(15,23,42,.10);}
 .code-toolbar button {border:1px solid #1f4e79;background:#eef5ff;color:#12385f;border-radius:.45rem;padding:.45rem .75rem;font-weight:750;cursor:pointer;}
 .code-toolbar button:hover {background:#dcecff;}
+
+
+/* Correction lisibilite scripts R */
+.cm-editor,
+.cm-scroller,
+.cm-content,
+.cm-line,
+.cm-gutters,
+.quarto-live-cell,
+.qwebr-interactive-area,
+div.sourceCode,
+pre.sourceCode,
+pre > code.sourceCode {
+  background: #f8fafc !important;
+  color: #111827 !important;
+}
+
+.cm-line,
+.cm-line span,
+.cm-content,
+.cm-content span,
+pre.sourceCode,
+pre.sourceCode span,
+code.sourceCode,
+code.sourceCode span {
+  color: #111827 !important;
+}
+
+.cm-gutters {
+  border-right: 1px solid #d1d5db !important;
+  color: #6b7280 !important;
+}
