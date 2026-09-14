@@ -71,8 +71,32 @@
       .student-r-output, .student-r-output pre, .student-r-output code {
         background:#fff!important; color:#111827!important;
       }
-      .student-r-output { border:1px solid #d8e2ec!important; border-radius:10px!important; padding:.8rem 1rem!important; box-shadow:none!important; overflow:auto!important; }
-      .student-r-output pre { margin:0!important; white-space:pre-wrap!important; }
+      .student-r-output {
+        border:1px solid #d8e2ec!important;
+        border-radius:10px!important;
+        padding:.8rem 1rem!important;
+        box-shadow:none!important;
+        overflow-x:auto!important;
+        overflow-y:visible!important;
+        max-width:100%!important;
+      }
+      .student-r-output pre {
+        display:block!important;
+        margin:0!important;
+        padding:0!important;
+        white-space:pre!important;
+        overflow:visible!important;
+        width:max-content!important;
+        min-width:100%!important;
+        max-width:none!important;
+        line-height:1.42!important;
+        font-size:.86rem!important;
+        tab-size:2!important;
+      }
+      .student-r-output code {
+        white-space:inherit!important;
+        line-height:inherit!important;
+      }
       @media (max-width:1099px) {
         #quarto-content.page-columns { display:block!important; width:100%!important; padding:0 12px!important; }
         #quarto-sidebar-toc-left { width:100%!important; max-width:none!important; }
@@ -135,12 +159,22 @@
     force(box, 'background', '#ffffff');
     force(box, 'background-color', '#ffffff');
     force(box, 'color', '#111827');
+    force(box, 'overflow-x', 'auto');
     box.querySelectorAll('pre, code, span, div').forEach(child => {
       if (isSourceCode(child)) return;
       force(child, 'color', '#111827');
-      if (child.tagName === 'PRE' || child.tagName === 'CODE') {
+      if (child.tagName === 'PRE') {
         force(child, 'background', 'transparent');
         force(child, 'background-color', 'transparent');
+        force(child, 'white-space', 'pre');
+        force(child, 'width', 'max-content');
+        force(child, 'min-width', '100%');
+        force(child, 'max-width', 'none');
+        force(child, 'line-height', '1.42');
+      } else if (child.tagName === 'CODE') {
+        force(child, 'background', 'transparent');
+        force(child, 'background-color', 'transparent');
+        force(child, 'white-space', 'inherit');
       }
     });
   }
