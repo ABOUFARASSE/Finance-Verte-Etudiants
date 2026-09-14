@@ -796,3 +796,51 @@ code.sourceCode span {
   border-right: 1px solid #d1d5db !important;
   color: #6b7280 !important;
 }
+
+/* =========================================================
+   Correction de lisibilité des SORTIES R
+   ========================================================= */
+
+.qwebr-output-code-area,
+.qwebr-output-code-stdout,
+.qwebr-output-code-stderr,
+.qwebr-output,
+.quarto-live-output,
+.cell-output,
+.cell-output-display {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid #d9e2ec !important;
+  border-radius: 8px !important;
+  padding: 0.8rem 1rem !important;
+}
+
+/* Texte produit par R */
+.qwebr-output-code-area pre,
+.qwebr-output-code-area code,
+.qwebr-output-code-stdout pre,
+.qwebr-output-code-stdout code,
+.qwebr-output-code-stderr pre,
+.qwebr-output-code-stderr code,
+.cell-output pre,
+.cell-output code {
+  background: #ffffff !important;
+  color: #111827 !important;
+}
+
+/* Erreurs R : visibles mais distinctes */
+.qwebr-output-code-stderr,
+.qwebr-output-code-stderr pre,
+.qwebr-output-code-stderr code {
+  color: #b42318 !important;
+  background: #fff7f6 !important;
+}
+
+/* Ne pas altérer les graphiques */
+.qwebr-output-graph-area,
+.qwebr-output-graph-area canvas,
+.qwebr-output-graph-area img {
+  background: #ffffff !important;
+}
+
+
