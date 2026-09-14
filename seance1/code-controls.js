@@ -5,6 +5,38 @@
     if (el) el.style.setProperty(prop, value, 'important');
   }
 
+  function utf8ToBase64(str) {
+    const bytes = new TextEncoder().encode(str);
+    let binary = '';
+    bytes.forEach(b => { binary += String.fromCharCode(b); });
+    return btoa(binary);
+  }
+
+  function base64ToUtf8(b64) {
+    const binary = atob(b64);
+    const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+    return new TextDecoder().decode(bytes);
+  }
+
+  function patchWebRCells() {
+    document.querySelectorAll('script[type^="webr-"][type$="-contents"]').forEach(script => {
+      try {
+        const raw = script.textContent.trim();
+        if (!raw) return;
+        const payload = JSON.parse(base64ToUtf8(raw));
+        if (typeof payload.code !== 'string') return;
+        if (!payload.code.includes('options(width = 220')) {
+          payload.code = 'options(width = 220, scipen = 999)\n' + payload.code;
+          script.textContent = utf8ToBase64(JSON.stringify(payload));
+        }
+      } catch (e) {
+        console.warn('Patch WebR ignoré pour une cellule :', e);
+      }
+    });
+  }
+
+  patchWebRCells();
+
   function injectStyle() {
     if (document.getElementById('student-v2-style')) return;
     const style = document.createElement('style');
@@ -68,11 +100,59 @@
       .student-toc-collapsed { display:none!important; }
       .code-toolbar { padding:.45rem!important; gap:.4rem!important; }
       .code-toolbar button { font-size:.82rem!important; padding:.36rem .58rem!important; }
-      .student-r-output, .student-r-output pre, .student-r-output code {
-        background:#fff!important; color:#111827!important;
+
+      div.exercise-cell-output.cell-output,
+      div.exercise-cell-output.cell-output-stdout,
+      div.exercise-cell-output.cell-output-stderr {
+        display:block!important;
+        width:100%!important;
+        max-width:100%!important;
+        min-width:0!important;
+        overflow-x:auto!important;
+        overflow-y:visible!important;
+        background:#fff!important;
+        color:#111827!important;
+        border:1px solid #d8e2ec!important;
+        border-radius:10px!important;
+        padding:.8rem 1rem!important;
+        box-sizing:border-box!important;
       }
-      .student-r-output { border:1px solid #d8e2ec!important; border-radius:10px!important; padding:.8rem 1rem!important; box-shadow:none!important; overflow:auto!important; }
-      .student-r-output pre { margin:0!important; white-space:pre-wrap!important; }
+      div.exercise-cell-output.cell-output pre,
+      div.exercise-cell-output.cell-output-stdout pre,
+      div.exercise-cell-output.cell-output-stderr pre {
+        display:block!important;
+        width:max-content!important;
+        min-width:100%!important;
+        max-width:none!important;
+        margin:0!important;
+        padding:0!important;
+        overflow:visible!important;
+        background:transparent!important;
+        color:#111827!important;
+      }
+      div.exercise-cell-output.cell-output pre code,
+      div.exercise-cell-output.cell-output-stdout pre code,
+      div.exercise-cell-output.cell-output-stderr pre code {
+        display:block!important;
+        width:max-content!important;
+        min-width:100%!important;
+        max-width:none!important;
+        white-space:pre!important;
+        word-wrap:normal!important;
+        overflow-wrap:normal!important;
+        word-break:normal!important;
+        background:transparent!important;
+        color:#111827!important;
+        font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace!important;
+        font-size:.95rem!important;
+        line-height:1.45!important;
+      }
+      div.exercise-cell-output.cell-output-stderr pre code { color:#a61b1b!important; }
+
+      .student-r-output { max-width:100%!important; overflow-x:auto!important; }
+      .student-r-output pre { white-space:pre!important; }
+      .student-r-output code { white-space:pre!important; word-wrap:normal!important; overflow-wrap:normal!important; }
+
       @media (max-width:1099px) {
         #quarto-content.page-columns { display:block!important; width:100%!important; padding:0 12px!important; }
         #quarto-sidebar-toc-left { width:100%!important; max-width:none!important; }
@@ -135,24 +215,13 @@
     force(box, 'background', '#ffffff');
     force(box, 'background-color', '#ffffff');
     force(box, 'color', '#111827');
-    box.querySelectorAll('pre, code, span, div').forEach(child => {
-      if (isSourceCode(child)) return;
-      force(child, 'color', '#111827');
-      if (child.tagName === 'PRE' || child.tagName === 'CODE') {
-        force(child, 'background', 'transparent');
-        force(child, 'background-color', 'transparent');
-      }
-    });
+    force(box, 'width', '100%');
+    force(box, 'max-width', '100%');
+    force(box, 'overflow-x', 'auto');
   }
 
   function fixROutputs() {
-    const candidate = '.qwebr-output-code-area,.qwebr-output-code-stdout,.qwebr-output-code-stderr,.qwebr-output,.quarto-live-output,.cell-output,.cell-output-display,[class*="output"],[class*="console"],[class*="result"],[id*="output"],[id*="console"]';
-    document.querySelectorAll(candidate).forEach(styleOutputBox);
-    document.querySelectorAll('pre').forEach(pre => {
-      if (isSourceCode(pre)) return;
-      const parent = pre.closest(candidate);
-      if (parent) styleOutputBox(parent);
-    });
+    document.querySelectorAll('div.exercise-cell-output, .qwebr-output, .quarto-live-output, .cell-output, .cell-output-display').forEach(styleOutputBox);
   }
 
   function installToolbar() {
