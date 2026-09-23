@@ -154,6 +154,40 @@
       .student-r-output pre { white-space:pre!important; }
       .student-r-output code { white-space:pre!important; word-wrap:normal!important; overflow-wrap:normal!important; }
 
+      .download-support-card {
+        margin:3rem 0 1rem;
+        padding:1.15rem 1.25rem;
+        background:#ffffff;
+        border:1px solid #d8e2ec;
+        border-radius:14px;
+        box-shadow:0 6px 20px rgba(15,23,42,.06);
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:1rem;
+        flex-wrap:wrap;
+      }
+      .download-support-copy { display:flex; flex-direction:column; gap:.2rem; }
+      .download-support-copy strong { color:#12385f; font-size:1.02rem; }
+      .download-support-copy span { color:#64748b; font-size:.9rem; }
+      .download-support-btn {
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:.45rem;
+        padding:.72rem 1rem;
+        border-radius:9px;
+        background:#12385f;
+        color:#fff!important;
+        font-weight:700;
+        text-decoration:none!important;
+        border:1px solid #12385f;
+      }
+      .download-support-btn:hover {
+        background:#0b2a49;
+        border-color:#0b2a49;
+      }
+
       @media (max-width:1099px) {
         #quarto-content.page-columns { display:block!important; width:100%!important; padding:0 12px!important; }
         #quarto-sidebar-toc-left { width:100%!important; max-width:none!important; }
@@ -246,11 +280,37 @@
     anchor.appendChild(toolbar);
   }
 
+  function installDownloadSupport() {
+    if (document.getElementById('download-support-wrap')) return;
+    const m = location.pathname.match(/\/seance([1-6])\//);
+    if (!m) return;
+    const n = m[1];
+    const main = document.querySelector('main.content') || document.getElementById('quarto-document-content');
+    if (!main) return;
+
+    const wrap = document.createElement('div');
+    wrap.id = 'download-support-wrap';
+    wrap.innerHTML = `
+      <div class="download-support-card">
+        <div class="download-support-copy">
+          <strong>Support de la séance</strong>
+          <span>Version polycopié académique au format PDF.</span>
+        </div>
+        <a class="download-support-btn"
+           href="${ROOT}pdf/Polycopie_Seance${n}_Finance_Verte_Academique.pdf"
+           download>
+          📄 Télécharger le support
+        </a>
+      </div>`;
+    main.appendChild(wrap);
+  }
+
   function install() {
     injectStyle();
     installNav();
     installTocControls();
     installToolbar();
+    installDownloadSupport();
     fixROutputs();
     const observer = new MutationObserver(() => requestAnimationFrame(fixROutputs));
     observer.observe(document.body, { childList:true, subtree:true });
