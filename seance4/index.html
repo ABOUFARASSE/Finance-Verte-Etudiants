@@ -1997,3 +1997,224 @@ window._ojs.runtime.interpretFromScriptTags();
 <span id="cb1-513"><a href="#cb1-513" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-514"><a href="#cb1-514" aria-hidden="true" tabindex="-1"></a><span class="fu">## 7.2 Programme sur deux années</span></span>
 <span id="cb1-515"><a href="#cb1-515" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-516"><a href="#cb1-516" aria-hidden="true" tabindex="-1"></a>Un modèle pluriannuel utilise $x_{it}$, qui indique le lancement du projet $i$ à la date $t$. Il faut limiter chaque projet à un lancement, respecter les budgets annuels, reporter les bénéfices et modéliser les prérequis temporels.</span>
+<span id="cb1-517"><a href="#cb1-517" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-518"><a href="#cb1-518" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercice 4 — Séquence de déploiement</span></span>
+<span id="cb1-519"><a href="#cb1-519" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-520"><a href="#cb1-520" aria-hidden="true" tabindex="-1"></a>Le numérique doit précéder le solaire ; le budget est de 1 200 en année 1 et 2 000 en année 2. Proposez une séquence et expliquez les bénéfices sacrifiés.</span>
+<span id="cb1-521"><a href="#cb1-521" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-522"><a href="#cb1-522" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="ot"> class</span><span class="op">=</span><span class="st">"correction"</span><span class="dt">&gt;&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Éléments de correction<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb1-523"><a href="#cb1-523" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-524"><a href="#cb1-524" aria-hidden="true" tabindex="-1"></a>Le numérique (300) peut être lancé en année 1. L’énergie (1 200) ne peut pas être ajoutée la même année sans dépasser le plafond ; les matières (700) sont compatibles avec le numérique pour un total de 1 000. En année 2, le solaire coûte 1 800 et devient faisable grâce au prérequis. Une séquence Numérique+Matières puis Solaire respecte les enveloppes. La comparaison finale doit actualiser les VAN à leur date de lancement et intégrer les synergies seulement durant les années où les actifs coexistent.</span>
+<span id="cb1-525"><a href="#cb1-525" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb1-526"><a href="#cb1-526" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-527"><a href="#cb1-527" aria-hidden="true" tabindex="-1"></a><span class="fu"># 8. Robustesse et gouvernance de l’allocation</span></span>
+<span id="cb1-528"><a href="#cb1-528" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-529"><a href="#cb1-529" aria-hidden="true" tabindex="-1"></a><span class="fu">## 8.1 Un portefeuille optimal peut être fragile</span></span>
+<span id="cb1-530"><a href="#cb1-530" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-531"><a href="#cb1-531" aria-hidden="true" tabindex="-1"></a>Si les deux meilleures combinaisons sont séparées par 27 kMAD, une petite erreur sur les économies solaires peut inverser le choix. Une recommandation professionnelle doit donc présenter :</span>
+<span id="cb1-532"><a href="#cb1-532" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-533"><a href="#cb1-533" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>le meilleur portefeuille ;</span>
+<span id="cb1-534"><a href="#cb1-534" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>la meilleure alternative ;</span>
+<span id="cb1-535"><a href="#cb1-535" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>l’écart de valeur ;</span>
+<span id="cb1-536"><a href="#cb1-536" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>les hypothèses responsables de cet écart ;</span>
+<span id="cb1-537"><a href="#cb1-537" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>les contraintes actives ;</span>
+<span id="cb1-538"><a href="#cb1-538" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>un plan de bascule.</span>
+<span id="cb1-539"><a href="#cb1-539" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-540"><a href="#cb1-540" aria-hidden="true" tabindex="-1"></a><span class="fu">## Application R 11 — Stress test de la VAN solaire</span></span>
+<span id="cb1-541"><a href="#cb1-541" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-544"><a href="#cb1-544" aria-hidden="true" tabindex="-1"></a><span class="in">```{webr}</span></span>
+<span id="cb1-545"><a href="#cb1-545" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: application-11</span></span>
+<span id="cb1-546"><a href="#cb1-546" aria-hidden="true" tabindex="-1"></a><span class="in">#| code-fold: true</span></span>
+<span id="cb1-547"><a href="#cb1-547" aria-hidden="true" tabindex="-1"></a><span class="in">van_solaire&lt;-seq(200,450,by=10)</span></span>
+<span id="cb1-548"><a href="#cb1-548" aria-hidden="true" tabindex="-1"></a><span class="in"># Portefeuille A : Numérique + Solaire + Matières</span></span>
+<span id="cb1-549"><a href="#cb1-549" aria-hidden="true" tabindex="-1"></a><span class="in">portefeuille_A&lt;-45+van_solaire+86</span></span>
+<span id="cb1-550"><a href="#cb1-550" aria-hidden="true" tabindex="-1"></a><span class="in"># Portefeuille B : Numérique + Énergie + Matières + synergies</span></span>
+<span id="cb1-551"><a href="#cb1-551" aria-hidden="true" tabindex="-1"></a><span class="in">portefeuille_B&lt;-rep(45+203+86+80+50,length(van_solaire))</span></span>
+<span id="cb1-552"><a href="#cb1-552" aria-hidden="true" tabindex="-1"></a><span class="in">tab&lt;-data.frame(VAN_solaire=van_solaire,A=portefeuille_A,B=portefeuille_B,</span></span>
+<span id="cb1-553"><a href="#cb1-553" aria-hidden="true" tabindex="-1"></a><span class="in">                Choix=ifelse(portefeuille_A&gt;=portefeuille_B,"A","B"))</span></span>
+<span id="cb1-554"><a href="#cb1-554" aria-hidden="true" tabindex="-1"></a><span class="in">print(tab)</span></span>
+<span id="cb1-555"><a href="#cb1-555" aria-hidden="true" tabindex="-1"></a><span class="in">seuil&lt;-464-45-86</span></span>
+<span id="cb1-556"><a href="#cb1-556" aria-hidden="true" tabindex="-1"></a><span class="in">cat("VAN solaire de bascule :",seuil,"kMAD\n")</span></span>
+<span id="cb1-557"><a href="#cb1-557" aria-hidden="true" tabindex="-1"></a><span class="in">plot(van_solaire,portefeuille_A,type="l",lwd=3,col="#d28b27",</span></span>
+<span id="cb1-558"><a href="#cb1-558" aria-hidden="true" tabindex="-1"></a><span class="in"> xlab="VAN du solaire",ylab="VAN du portefeuille")</span></span>
+<span id="cb1-559"><a href="#cb1-559" aria-hidden="true" tabindex="-1"></a><span class="in">lines(van_solaire,portefeuille_B,lwd=3,col="#167d6b")</span></span>
+<span id="cb1-560"><a href="#cb1-560" aria-hidden="true" tabindex="-1"></a><span class="in">abline(v=seuil,lty=2,col="firebrick")</span></span>
+<span id="cb1-561"><a href="#cb1-561" aria-hidden="true" tabindex="-1"></a><span class="in">legend("topleft",c("A : N+S+Mat","B : N+E+Mat"),col=c("#d28b27","#167d6b"),lwd=3,bty="n")</span></span>
+<span id="cb1-562"><a href="#cb1-562" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-563"><a href="#cb1-563" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-564"><a href="#cb1-564" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="ot"> class</span><span class="op">=</span><span class="st">"correction"</span><span class="dt">&gt;&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Résultat et décision<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb1-565"><a href="#cb1-565" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-566"><a href="#cb1-566" aria-hidden="true" tabindex="-1"></a>Le portefeuille A ne domine B que si la VAN solaire atteint au moins **333 kMAD**. L’estimation centrale de 360 ne laisse qu’une marge de 27. Le comité peut approuver A avec une condition : réviser la décision si le contrat ou la production attendue ramène la VAN solaire sous 333.</span>
+<span id="cb1-567"><a href="#cb1-567" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb1-568"><a href="#cb1-568" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-569"><a href="#cb1-569" aria-hidden="true" tabindex="-1"></a><span class="fu">## Application R 12 — Analyse probabiliste des deux portefeuilles</span></span>
+<span id="cb1-570"><a href="#cb1-570" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-573"><a href="#cb1-573" aria-hidden="true" tabindex="-1"></a><span class="in">```{webr}</span></span>
+<span id="cb1-574"><a href="#cb1-574" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: application-12</span></span>
+<span id="cb1-575"><a href="#cb1-575" aria-hidden="true" tabindex="-1"></a><span class="in">#| code-fold: true</span></span>
+<span id="cb1-576"><a href="#cb1-576" aria-hidden="true" tabindex="-1"></a><span class="in">set.seed(2026)</span></span>
+<span id="cb1-577"><a href="#cb1-577" aria-hidden="true" tabindex="-1"></a><span class="in">B&lt;-10000</span></span>
+<span id="cb1-578"><a href="#cb1-578" aria-hidden="true" tabindex="-1"></a><span class="in">v_solaire&lt;-rnorm(B,360,55)</span></span>
+<span id="cb1-579"><a href="#cb1-579" aria-hidden="true" tabindex="-1"></a><span class="in">v_energie&lt;-rnorm(B,203,35)</span></span>
+<span id="cb1-580"><a href="#cb1-580" aria-hidden="true" tabindex="-1"></a><span class="in">v_matieres&lt;-rnorm(B,86,20)</span></span>
+<span id="cb1-581"><a href="#cb1-581" aria-hidden="true" tabindex="-1"></a><span class="in">v_numerique&lt;-rnorm(B,45,10)</span></span>
+<span id="cb1-582"><a href="#cb1-582" aria-hidden="true" tabindex="-1"></a><span class="in">synergie_NE&lt;-pmax(rnorm(B,80,20),0)</span></span>
+<span id="cb1-583"><a href="#cb1-583" aria-hidden="true" tabindex="-1"></a><span class="in">synergie_EM&lt;-pmax(rnorm(B,50,15),0)</span></span>
+<span id="cb1-584"><a href="#cb1-584" aria-hidden="true" tabindex="-1"></a><span class="in">A&lt;-v_numerique+v_solaire+v_matieres</span></span>
+<span id="cb1-585"><a href="#cb1-585" aria-hidden="true" tabindex="-1"></a><span class="in">Bport&lt;-v_numerique+v_energie+v_matieres+synergie_NE+synergie_EM</span></span>
+<span id="cb1-586"><a href="#cb1-586" aria-hidden="true" tabindex="-1"></a><span class="in">ecart&lt;-A-Bport</span></span>
+<span id="cb1-587"><a href="#cb1-587" aria-hidden="true" tabindex="-1"></a><span class="in">data.frame(Portefeuille=c("A","B"),Moyenne=round(c(mean(A),mean(Bport)),1),</span></span>
+<span id="cb1-588"><a href="#cb1-588" aria-hidden="true" tabindex="-1"></a><span class="in"> P05=round(c(quantile(A,.05),quantile(Bport,.05)),1),</span></span>
+<span id="cb1-589"><a href="#cb1-589" aria-hidden="true" tabindex="-1"></a><span class="in"> P95=round(c(quantile(A,.95),quantile(Bport,.95)),1))</span></span>
+<span id="cb1-590"><a href="#cb1-590" aria-hidden="true" tabindex="-1"></a><span class="in">cat("Part des simulations où A domine B :",round(mean(ecart&gt;0)*100,1),"%\n")</span></span>
+<span id="cb1-591"><a href="#cb1-591" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-592"><a href="#cb1-592" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-593"><a href="#cb1-593" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="ot"> class</span><span class="op">=</span><span class="st">"correction"</span><span class="dt">&gt;&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Interprétation prudente<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb1-594"><a href="#cb1-594" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-595"><a href="#cb1-595" aria-hidden="true" tabindex="-1"></a>La fréquence simulée dépend entièrement des distributions supposées. Elle mesure une robustesse conditionnelle, non une probabilité objective. Si le portefeuille B domine souvent malgré une VAN centrale inférieure, l’entreprise peut chercher une information supplémentaire sur le solaire avant de verrouiller l’allocation.</span>
+<span id="cb1-596"><a href="#cb1-596" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb1-597"><a href="#cb1-597" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-598"><a href="#cb1-598" aria-hidden="true" tabindex="-1"></a><span class="fu">## 8.2 Gouvernance des contraintes</span></span>
+<span id="cb1-599"><a href="#cb1-599" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-600"><a href="#cb1-600" aria-hidden="true" tabindex="-1"></a>Une contrainte doit avoir un propriétaire, une justification et une date de révision. Sans cela, l’optimisation risque de sanctuariser des habitudes internes. Le comité doit distinguer :</span>
+<span id="cb1-601"><a href="#cb1-601" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-602"><a href="#cb1-602" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>limite réellement non négociable ;</span>
+<span id="cb1-603"><a href="#cb1-603" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>objectif stratégique approuvé ;</span>
+<span id="cb1-604"><a href="#cb1-604" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>hypothèse technique ;</span>
+<span id="cb1-605"><a href="#cb1-605" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>préférence temporaire ;</span>
+<span id="cb1-606"><a href="#cb1-606" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>convention analytique.</span>
+<span id="cb1-607"><a href="#cb1-607" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-608"><a href="#cb1-608" aria-hidden="true" tabindex="-1"></a><span class="fu">### Exercice 5 — Contester intelligemment le budget</span></span>
+<span id="cb1-609"><a href="#cb1-609" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-610"><a href="#cb1-610" aria-hidden="true" tabindex="-1"></a>Le meilleur portefeuille non financé crée 120 kMAD supplémentaires mais nécessite 250 kMAD de budget additionnel. Le financement marginal coûte 8 % sur un an. Que doit présenter l’analyste ?</span>
+<span id="cb1-611"><a href="#cb1-611" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-612"><a href="#cb1-612" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="ot"> class</span><span class="op">=</span><span class="st">"correction"</span><span class="dt">&gt;&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Corrigé<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb1-613"><a href="#cb1-613" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-614"><a href="#cb1-614" aria-hidden="true" tabindex="-1"></a>Il doit comparer la valeur additionnelle au coût complet du financement et aux risques du portefeuille, pas seulement demander une dérogation. Un coût financier annuel de 20 kMAD (<span class="in">`250 × 8 %`</span>) est inférieur aux 120 kMAD de valeur annoncée, mais la comparaison doit respecter horizons et risques. Si les 120 kMAD sont une VAN déjà calculée au bon coût du capital, le projet mérite une réouverture de l’enveloppe interne. C’est précisément l’intérêt de distinguer rationnement souple et dur.</span>
+<span id="cb1-615"><a href="#cb1-615" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb1-616"><a href="#cb1-616" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-617"><a href="#cb1-617" aria-hidden="true" tabindex="-1"></a><span class="fu"># 9. Cas intégrateur — Comité d’allocation Atlas</span></span>
+<span id="cb1-618"><a href="#cb1-618" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-619"><a href="#cb1-619" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consigne (30 minutes)</span></span>
+<span id="cb1-620"><a href="#cb1-620" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-621"><a href="#cb1-621" aria-hidden="true" tabindex="-1"></a>Le comité dispose des six projets du cours, de 3 000 kMAD et de 20 unités de capacité. Il doit examiner trois mandats :</span>
+<span id="cb1-622"><a href="#cb1-622" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-623"><a href="#cb1-623" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>maximiser la VAN financière ;</span>
+<span id="cb1-624"><a href="#cb1-624" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>atteindre au moins 900 tCO2e évitées ;</span>
+<span id="cb1-625"><a href="#cb1-625" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>atteindre au moins 30 000 m³ d’eau économisés.</span>
+<span id="cb1-626"><a href="#cb1-626" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-627"><a href="#cb1-627" aria-hidden="true" tabindex="-1"></a>Pour chaque mandat, fournissez : portefeuille, ressources utilisées, valeur créée, impacts, contraintes actives, meilleure alternative, coût d’opportunité et condition de révision.</span>
+<span id="cb1-628"><a href="#cb1-628" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-629"><a href="#cb1-629" aria-hidden="true" tabindex="-1"></a><span class="fu">## Application R 13 — Tableau complet du comité</span></span>
+<span id="cb1-630"><a href="#cb1-630" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-633"><a href="#cb1-633" aria-hidden="true" tabindex="-1"></a><span class="in">```{webr}</span></span>
+<span id="cb1-634"><a href="#cb1-634" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: application-13</span></span>
+<span id="cb1-635"><a href="#cb1-635" aria-hidden="true" tabindex="-1"></a><span class="in">#| code-fold: true</span></span>
+<span id="cb1-636"><a href="#cb1-636" aria-hidden="true" tabindex="-1"></a><span class="in">P&lt;-data.frame(Projet=c("Numerique","Energie","Solaire","Eau","Matieres","Modernisation"),</span></span>
+<span id="cb1-637"><a href="#cb1-637" aria-hidden="true" tabindex="-1"></a><span class="in"> CAPEX=c(300,1200,1800,900,700,1500),VAN=c(45,203,360,-359,86,280),</span></span>
+<span id="cb1-638"><a href="#cb1-638" aria-hidden="true" tabindex="-1"></a><span class="in"> Cap=c(3,8,9,7,6,10),CO2=c(50,500,760,35,250,420),Eau=c(0,1500,300,30000,2500,1000))</span></span>
+<span id="cb1-639"><a href="#cb1-639" aria-hidden="true" tabindex="-1"></a><span class="in">X&lt;-expand.grid(rep(list(0:1),6));names(X)&lt;-P$Projet</span></span>
+<span id="cb1-640"><a href="#cb1-640" aria-hidden="true" tabindex="-1"></a><span class="in">R&lt;-t(apply(X,1,function(x)c(CAPEX=sum(x*P$CAPEX),Cap=sum(x*P$Cap),</span></span>
+<span id="cb1-641"><a href="#cb1-641" aria-hidden="true" tabindex="-1"></a><span class="in"> VAN=sum(x*P$VAN)+80*x[1]*x[2]+50*x[2]*x[5],CO2=sum(x*P$CO2),Eau=sum(x*P$Eau),</span></span>
+<span id="cb1-642"><a href="#cb1-642" aria-hidden="true" tabindex="-1"></a><span class="in"> pre=x[3]&lt;=x[1],com=x[2]+x[6]&lt;=1)))</span></span>
+<span id="cb1-643"><a href="#cb1-643" aria-hidden="true" tabindex="-1"></a><span class="in">Z&lt;-cbind(X,R);Z&lt;-Z[Z$CAPEX&lt;=3000&amp;Z$Cap&lt;=20&amp;Z$pre==1&amp;Z$com==1,]</span></span>
+<span id="cb1-644"><a href="#cb1-644" aria-hidden="true" tabindex="-1"></a><span class="in">choisir&lt;-function(a){if(nrow(a)==0)return(NULL);a[which.max(a$VAN),]}</span></span>
+<span id="cb1-645"><a href="#cb1-645" aria-hidden="true" tabindex="-1"></a><span class="in">s0&lt;-choisir(Z);sc&lt;-choisir(Z[Z$CO2&gt;=900,]);se&lt;-choisir(Z[Z$Eau&gt;=30000,])</span></span>
+<span id="cb1-646"><a href="#cb1-646" aria-hidden="true" tabindex="-1"></a><span class="in">sortie&lt;-rbind(Finance=s0,Carbone=sc,Eau=se)</span></span>
+<span id="cb1-647"><a href="#cb1-647" aria-hidden="true" tabindex="-1"></a><span class="in">sortie</span></span>
+<span id="cb1-648"><a href="#cb1-648" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-649"><a href="#cb1-649" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-650"><a href="#cb1-650" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="ot"> class</span><span class="op">=</span><span class="st">"correction"</span><span class="dt">&gt;&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Corrigé du comité<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb1-651"><a href="#cb1-651" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-652"><a href="#cb1-652" aria-hidden="true" tabindex="-1"></a>**Mandat financier :** Numérique + Solaire + Matières ; CAPEX 2 800, capacité 18, VAN 491, CO2 1 060, eau 2 800.</span>
+<span id="cb1-653"><a href="#cb1-653" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-654"><a href="#cb1-654" aria-hidden="true" tabindex="-1"></a>**Mandat carbone :** même portefeuille. La cible de 900 est satisfaite sans sacrifice financier supplémentaire.</span>
+<span id="cb1-655"><a href="#cb1-655" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-656"><a href="#cb1-656" aria-hidden="true" tabindex="-1"></a>**Mandat eau :** Numérique + Solaire + Eau ; CAPEX 3 000, capacité 19, VAN 46, CO2 845, eau 30 300. Le sacrifice financier par rapport à l’optimum vaut 445 kMAD.</span>
+<span id="cb1-657"><a href="#cb1-657" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-658"><a href="#cb1-658" aria-hidden="true" tabindex="-1"></a>**Recommandation.** Approuver le portefeuille financier/carbone. Pour l’eau, ne pas dissimuler le coût : rechercher une aide, un redimensionnement ou un phasage, puis revenir au comité. Si le risque de rupture hydrique étudié en séance 3 justifie au moins 445 kMAD de valeur de résilience, le portefeuille hydrique redevient défendable.</span>
+<span id="cb1-659"><a href="#cb1-659" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb1-660"><a href="#cb1-660" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-661"><a href="#cb1-661" aria-hidden="true" tabindex="-1"></a><span class="fu">## Application R 14 — Vérificateur général</span></span>
+<span id="cb1-662"><a href="#cb1-662" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-665"><a href="#cb1-665" aria-hidden="true" tabindex="-1"></a><span class="in">```{webr}</span></span>
+<span id="cb1-666"><a href="#cb1-666" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: application-14</span></span>
+<span id="cb1-667"><a href="#cb1-667" aria-hidden="true" tabindex="-1"></a><span class="in">#| code-fold: true</span></span>
+<span id="cb1-668"><a href="#cb1-668" aria-hidden="true" tabindex="-1"></a><span class="in"># Reconstruction autonome du modèle avant les tests.</span></span>
+<span id="cb1-669"><a href="#cb1-669" aria-hidden="true" tabindex="-1"></a><span class="in">P&lt;-data.frame(Projet=c("Numerique","Energie","Solaire","Eau","Matieres","Modernisation"),</span></span>
+<span id="cb1-670"><a href="#cb1-670" aria-hidden="true" tabindex="-1"></a><span class="in"> CAPEX=c(300,1200,1800,900,700,1500),VAN=c(45,203,360,-359,86,280),</span></span>
+<span id="cb1-671"><a href="#cb1-671" aria-hidden="true" tabindex="-1"></a><span class="in"> Cap=c(3,8,9,7,6,10),CO2=c(50,500,760,35,250,420),Eau=c(0,1500,300,30000,2500,1000))</span></span>
+<span id="cb1-672"><a href="#cb1-672" aria-hidden="true" tabindex="-1"></a><span class="in">X&lt;-expand.grid(rep(list(0:1),6));names(X)&lt;-P$Projet</span></span>
+<span id="cb1-673"><a href="#cb1-673" aria-hidden="true" tabindex="-1"></a><span class="in">R&lt;-t(apply(X,1,function(x)c(CAPEX=sum(x*P$CAPEX),Cap=sum(x*P$Cap),</span></span>
+<span id="cb1-674"><a href="#cb1-674" aria-hidden="true" tabindex="-1"></a><span class="in"> VAN=sum(x*P$VAN)+80*x[1]*x[2]+50*x[2]*x[5],CO2=sum(x*P$CO2),Eau=sum(x*P$Eau),</span></span>
+<span id="cb1-675"><a href="#cb1-675" aria-hidden="true" tabindex="-1"></a><span class="in"> pre=x[3]&lt;=x[1],com=x[2]+x[6]&lt;=1)))</span></span>
+<span id="cb1-676"><a href="#cb1-676" aria-hidden="true" tabindex="-1"></a><span class="in">Z&lt;-cbind(X,R);Z&lt;-Z[Z$CAPEX&lt;=3000&amp;Z$Cap&lt;=20&amp;Z$pre==1&amp;Z$com==1,]</span></span>
+<span id="cb1-677"><a href="#cb1-677" aria-hidden="true" tabindex="-1"></a><span class="in">choisir&lt;-function(a) a[which.max(a$VAN),]</span></span>
+<span id="cb1-678"><a href="#cb1-678" aria-hidden="true" tabindex="-1"></a><span class="in">s0&lt;-choisir(Z);sc&lt;-choisir(Z[Z$CO2&gt;=900,]);se&lt;-choisir(Z[Z$Eau&gt;=30000,])</span></span>
+<span id="cb1-679"><a href="#cb1-679" aria-hidden="true" tabindex="-1"></a><span class="in">sortie&lt;-rbind(Finance=s0,Carbone=sc,Eau=se)</span></span>
+<span id="cb1-680"><a href="#cb1-680" aria-hidden="true" tabindex="-1"></a><span class="in">tests&lt;-c(</span></span>
+<span id="cb1-681"><a href="#cb1-681" aria-hidden="true" tabindex="-1"></a><span class="in"> portefeuille_financier=abs(s0$VAN-491)&lt;1e-9,</span></span>
+<span id="cb1-682"><a href="#cb1-682" aria-hidden="true" tabindex="-1"></a><span class="in"> budget_financier=s0$CAPEX==2800,</span></span>
+<span id="cb1-683"><a href="#cb1-683" aria-hidden="true" tabindex="-1"></a><span class="in"> capacite_financiere=s0$Cap==18,</span></span>
+<span id="cb1-684"><a href="#cb1-684" aria-hidden="true" tabindex="-1"></a><span class="in"> cible_carbone=sc$CO2&gt;=900,</span></span>
+<span id="cb1-685"><a href="#cb1-685" aria-hidden="true" tabindex="-1"></a><span class="in">  meme_solution=all(as.numeric(unlist(s0[1,1:6]))==as.numeric(unlist(sc[1,1:6]))),</span></span>
+<span id="cb1-686"><a href="#cb1-686" aria-hidden="true" tabindex="-1"></a><span class="in"> cible_eau=se$Eau&gt;=30000,</span></span>
+<span id="cb1-687"><a href="#cb1-687" aria-hidden="true" tabindex="-1"></a><span class="in"> cout_ambition=abs((s0$VAN-se$VAN)-445)&lt;1e-9,</span></span>
+<span id="cb1-688"><a href="#cb1-688" aria-hidden="true" tabindex="-1"></a><span class="in"> aucune_donnee_manquante=!anyNA(sortie)</span></span>
+<span id="cb1-689"><a href="#cb1-689" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb1-690"><a href="#cb1-690" aria-hidden="true" tabindex="-1"></a><span class="in">print(tests)</span></span>
+<span id="cb1-691"><a href="#cb1-691" aria-hidden="true" tabindex="-1"></a><span class="in">if(!all(tests)) stop("Incohérence détectée") else cat("Tous les contrôles sont satisfaits.\n")</span></span>
+<span id="cb1-692"><a href="#cb1-692" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-693"><a href="#cb1-693" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-694"><a href="#cb1-694" aria-hidden="true" tabindex="-1"></a>Toutes les cellules R, y compris le vérificateur, sont autonomes et peuvent être exécutées dans n’importe quel ordre.</span>
+<span id="cb1-695"><a href="#cb1-695" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-696"><a href="#cb1-696" aria-hidden="true" tabindex="-1"></a><span class="fu"># 10. Synthèse de la séance</span></span>
+<span id="cb1-697"><a href="#cb1-697" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-698"><a href="#cb1-698" aria-hidden="true" tabindex="-1"></a><span class="fu">## Les dix idées à conserver</span></span>
+<span id="cb1-699"><a href="#cb1-699" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-700"><a href="#cb1-700" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Un portefeuille est une combinaison, pas une liste classée.</span>
+<span id="cb1-701"><a href="#cb1-701" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Le capital n’est pas la seule ressource rare.</span>
+<span id="cb1-702"><a href="#cb1-702" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>L’indice de profitabilité ne garantit pas l’optimum discret.</span>
+<span id="cb1-703"><a href="#cb1-703" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Les dépendances et exclusions doivent être écrites comme contraintes.</span>
+<span id="cb1-704"><a href="#cb1-704" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Les synergies doivent reposer sur des flux identifiables.</span>
+<span id="cb1-705"><a href="#cb1-705" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Une cible environnementale peut être traitée comme contrainte, prix ou critère.</span>
+<span id="cb1-706"><a href="#cb1-706" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>Son coût d’opportunité doit être communiqué.</span>
+<span id="cb1-707"><a href="#cb1-707" aria-hidden="true" tabindex="-1"></a><span class="ss">8. </span>Les frontières sont en escalier lorsque les projets sont indivisibles.</span>
+<span id="cb1-708"><a href="#cb1-708" aria-hidden="true" tabindex="-1"></a><span class="ss">9. </span>Un optimum proche de son alternative exige un plan de bascule.</span>
+<span id="cb1-709"><a href="#cb1-709" aria-hidden="true" tabindex="-1"></a><span class="ss">10. </span>Reporter un projet est une décision financière et stratégique, non une absence de décision.</span>
+<span id="cb1-710"><a href="#cb1-710" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-711"><a href="#cb1-711" aria-hidden="true" tabindex="-1"></a>::: {.oral-comment}</span>
+<span id="cb1-712"><a href="#cb1-712" aria-hidden="true" tabindex="-1"></a>**Synthèse à lire.** « L’optimisation ne produit pas la stratégie ; elle rend ses conséquences visibles. Elle montre le portefeuille compatible avec les contraintes annoncées, la valeur perdue par chaque exigence et les hypothèses qui peuvent faire changer la décision. »</span>
+<span id="cb1-713"><a href="#cb1-713" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-714"><a href="#cb1-714" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-715"><a href="#cb1-715" aria-hidden="true" tabindex="-1"></a><span class="fu">## Ticket de sortie</span></span>
+<span id="cb1-716"><a href="#cb1-716" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-717"><a href="#cb1-717" aria-hidden="true" tabindex="-1"></a>En huit lignes, recommandez un portefeuille à Atlas. Citez le mandat retenu, la VAN, le budget, la capacité, les impacts, une contrainte active, une hypothèse de bascule et un projet reporté.</span>
+<span id="cb1-718"><a href="#cb1-718" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-719"><a href="#cb1-719" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="ot"> class</span><span class="op">=</span><span class="st">"correction"</span><span class="dt">&gt;&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Réponse attendue<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb1-720"><a href="#cb1-720" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-721"><a href="#cb1-721" aria-hidden="true" tabindex="-1"></a>Une réponse solide retient Numérique + Solaire + Matières sous le mandat financier/carbone ; annonce 491 kMAD de VAN, 2 800 kMAD de CAPEX, 18 unités de capacité et 1 060 tCO2e ; précise que le solaire dépend du numérique ; signale le seuil de VAN solaire de 333 kMAD ; et reporte le projet eau sous réserve d’un financement, d’un redimensionnement ou d’une valeur de résilience documentée.</span>
+<span id="cb1-722"><a href="#cb1-722" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb1-723"><a href="#cb1-723" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-724"><a href="#cb1-724" aria-hidden="true" tabindex="-1"></a><span class="fu"># 11. Transition vers la séance 5</span></span>
+<span id="cb1-725"><a href="#cb1-725" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-726"><a href="#cb1-726" aria-hidden="true" tabindex="-1"></a>Le comité possède maintenant un portefeuille optimal sous les hypothèses centrales. Mais le fournisseur peut augmenter son prix, la mise en service peut être retardée et les économies techniques peuvent décevoir. Surtout, certaines décisions sont réversibles et d’autres non.</span>
+<span id="cb1-727"><a href="#cb1-727" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-728"><a href="#cb1-728" aria-hidden="true" tabindex="-1"></a>La séance 5 demandera donc : **faut-il investir immédiatement, attendre, lancer un pilote ou abandonner ?** Nous passerons de l’allocation statique à la décision sous incertitude, à la valeur de l’information et aux options réelles.</span>
+<span id="cb1-729"><a href="#cb1-729" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-730"><a href="#cb1-730" aria-hidden="true" tabindex="-1"></a><span class="fu"># Références essentielles</span></span>
+<span id="cb1-731"><a href="#cb1-731" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-732"><a href="#cb1-732" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Berk, J. &amp; DeMarzo, P., *Finance d’entreprise*, chapitres 7–8, notamment le choix d’investissement sous contraintes de ressources : <span class="co">[</span><span class="ot">extrait Pearson</span><span class="co">](https://online.flippingbook.com/view/314625099/1/)</span>.</span>
+<span id="cb1-733"><a href="#cb1-733" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Schoenmaker, D. &amp; Schramade, W., *Corporate Finance for Long-Term Value*, Springer, accès ouvert : <span class="co">[</span><span class="ot">ouvrage</span><span class="co">](https://link.springer.com/book/10.1007/978-3-031-35009-2)</span>.</span>
+<span id="cb1-734"><a href="#cb1-734" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>GHG Protocol, <span class="co">[</span><span class="ot">Corporate Standard</span><span class="co">](https://ghgprotocol.org/corporate-standard)</span>, pour la cohérence des frontières d’émissions.</span>
+<span id="cb1-735"><a href="#cb1-735" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>NGFS, <span class="co">[</span><span class="ot">Scenarios Portal</span><span class="co">](https://www.ngfs.net/ngfs-scenarios-portal/explore/)</span>, pour le stress des hypothèses de transition.</span>
+</code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<script src="/Finance-Verte-Etudiants/seance1/index_files/libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
