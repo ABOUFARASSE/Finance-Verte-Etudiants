@@ -211,7 +211,8 @@
       <a href="${ROOT}seance3/" class="${here.includes('/seance3/') ? 'active' : ''}">Séance 3</a>
       <a href="${ROOT}seance4/" class="${here.includes('/seance4/') ? 'active' : ''}">Séance 4</a>
       <a href="${ROOT}seance5/" class="${here.includes('/seance5/') ? 'active' : ''}">Séance 5</a>
-      <a href="${ROOT}seance6/" class="${here.includes('/seance6/') ? 'active' : ''}">Séance 6</a>`;
+      <a href="${ROOT}seance6/" class="${here.includes('/seance6/') ? 'active' : ''}">Séance 6</a>
+      <a href="${ROOT}evaluation-finale/" class="${here.includes('/evaluation-finale/') ? 'active' : ''}">Évaluation finale</a>`;
     main.insertBefore(nav, main.firstChild);
   }
 
