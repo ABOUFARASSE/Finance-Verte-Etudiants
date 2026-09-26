@@ -29,6 +29,15 @@
     .submitter-email{display:flex;flex-direction:column;gap:7px;margin:16px 0}
     .submitter-email label{font-weight:700;color:#34445b;font-size:.92rem}
     .submitter-email input{width:min(100%,520px);padding:11px 12px;border:1px solid #c7d0db;border-radius:9px;background:#fff;color:#263244;font:inherit}
+    .file-row{display:flex;flex-direction:column;gap:7px;margin:16px 0}
+    .file-row label{font-weight:700;color:#34445b;font-size:.92rem}
+    .file-row input[type=file]{width:min(100%,620px);padding:10px;border:1px solid #c7d0db;border-radius:9px;background:#fff}
+    .upload-btn.active{background:#14213d;color:#fff;border-color:#14213d;cursor:pointer}
+    .upload-btn.active:hover{background:#203154}
+    .upload-status{margin-top:14px!important;padding:10px 12px;border-radius:9px;display:none}
+    .upload-status.ok{display:block;background:#eefaf4;color:#17653b;border:1px solid #bfe6cf}
+    .upload-status.err{display:block;background:#fff2f2;color:#9a1f1f;border:1px solid #f0c6c6}
+    .upload-status.info{display:block;background:#eef6ff;color:#214f80;border:1px solid #c7dcef}
     .submitter-email input:focus{outline:2px solid #c7e6e1;border-color:#0f766e}
     .footer{border-top:1px solid var(--line);padding:24px 0 42px;color:var(--muted);font-size:.88rem}.footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     @media(max-width:760px){.top .tag{display:none}.hero{padding-top:34px}.empty{padding:26px}}
@@ -63,7 +72,11 @@
           <p>Déposez ici votre rendu final une fois l’évaluation terminée. Vérifiez que le fichier est correctement nommé et qu’il contient l’ensemble des éléments demandés avant l’envoi.</p>
           <div class="submitter-email">
             <label for="submitter-email">Adresse e-mail de la personne qui dépose le travail</label>
-            <input id="submitter-email" name="submitter-email" type="email" placeholder="prenom.nom@exemple.com" autocomplete="email" disabled>
+            <input id="submitter-email" name="submitter-email" type="email" placeholder="prenom.nom@exemple.com" autocomplete="email" required>
+          </div>
+          <div class="file-row">
+            <label for="submission-file">Fichier à déposer</label>
+            <input id="submission-file" name="submission-file" type="file" accept=".doc,.docx,.pdf,.zip,.rar" required>
           </div>
           <div class="formats" aria-label="Formats acceptés">
             <span>Word (.doc, .docx)</span>
@@ -71,13 +84,123 @@
             <span>Archive ZIP (.zip)</span>
             <span>Archive RAR (.rar)</span>
           </div>
-          <div class="upload-btn" aria-disabled="true">Déposer mon travail</div>
-          <p class="upload-note"><strong>Dépôt non encore activé.</strong> L’adresse e-mail du déposant sera demandée avec le fichier lors de l’envoi. L’envoi effectif sera activé dès que le stockage sécurisé sera connecté.</p>
+          <button class="upload-btn active" id="upload-submit" type="button">Déposer mon travail</button>
+          <p class="upload-note">Formats acceptés : Word, PDF, ZIP ou RAR. Taille maximale : 50 Mo. Après envoi, attendez le message de confirmation avant de fermer la page.</p>
+          <p id="upload-status" class="upload-status" role="status" aria-live="polite"></p>
         </div>
       </div>
     </div></section>
   </main>
   <footer class="footer"><div class="wrap"><span>© Badr ABOUFARASSE — Support pédagogique</span><span>Stratégies financières et gestion des ressources</span></div></footer>
   <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"f8416410f1c0413b8e09d1bb7273173f"}'></script>
+<script type="module">
+  const SUPABASE_URL = 'https://qrkzgapnevjzwkosgsnx.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_RLbKPgnOBNWnLtbTfc6XJw_vq9WIpU7';
+  const BUCKET = 'evaluation-finale';
+  const TABLE = 'evaluation_finale_submissions';
+  const MAX_SIZE = 50 * 1024 * 1024;
+  const allowedExt = new Set(['doc','docx','pdf','zip','rar']);
+
+  const emailEl = document.getElementById('submitter-email');
+  const fileEl = document.getElementById('submission-file');
+  const btn = document.getElementById('upload-submit');
+  const statusEl = document.getElementById('upload-status');
+
+  function status(message, kind='info') {
+    statusEl.className = 'upload-status ' + kind;
+    statusEl.textContent = message;
+  }
+  function cleanName(name) {
+    return name.normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g,'')
+      .replace(/[^a-zA-Z0-9._-]+/g,'_')
+      .replace(/_+/g,'_');
+  }
+
+  btn.addEventListener('click', async () => {
+    const email = emailEl.value.trim();
+    const file = fileEl.files && fileEl.files[0];
+
+    if (!email || !emailEl.checkValidity()) {
+      status('Veuillez saisir une adresse e-mail valide.', 'err');
+      emailEl.focus();
+      return;
+    }
+    if (!file) {
+      status('Veuillez sélectionner le fichier à déposer.', 'err');
+      fileEl.focus();
+      return;
+    }
+    const ext = (file.name.split('.').pop() || '').toLowerCase();
+    if (!allowedExt.has(ext)) {
+      status('Format non accepté. Utilisez un fichier Word, PDF, ZIP ou RAR.', 'err');
+      return;
+    }
+    if (file.size <= 0 || file.size > MAX_SIZE) {
+      status('Le fichier doit avoir une taille inférieure ou égale à 50 Mo.', 'err');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Envoi en cours…';
+    status('Téléversement du fichier en cours. Merci de ne pas fermer cette page.', 'info');
+
+    const stamp = new Date().toISOString().slice(0,10);
+    const uuid = crypto.randomUUID();
+    const path = stamp + '/' + uuid + '_' + cleanName(file.name);
+    const commonHeaders = {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY
+    };
+
+    try {
+      const uploadRes = await fetch(
+        SUPABASE_URL + '/storage/v1/object/' + BUCKET + '/' + encodeURI(path),
+        {
+          method: 'POST',
+          headers: {
+            ...commonHeaders,
+            'Content-Type': file.type || 'application/octet-stream',
+            'x-upsert': 'false'
+          },
+          body: file
+        }
+      );
+      if (!uploadRes.ok) {
+        const msg = await uploadRes.text();
+        throw new Error('Échec du dépôt du fichier : ' + msg);
+      }
+
+      const metaRes = await fetch(SUPABASE_URL + '/rest/v1/' + TABLE, {
+        method: 'POST',
+        headers: {
+          ...commonHeaders,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          email,
+          original_filename: file.name,
+          storage_path: path,
+          mime_type: file.type || null,
+          size_bytes: file.size
+        })
+      });
+      if (!metaRes.ok) {
+        const msg = await metaRes.text();
+        throw new Error('Le fichier a été envoyé, mais l’enregistrement du dépôt a échoué : ' + msg);
+      }
+
+      status('Dépôt enregistré avec succès. Votre travail final a bien été reçu.', 'ok');
+      fileEl.value = '';
+    } catch (err) {
+      console.error(err);
+      status('Le dépôt n’a pas pu être finalisé. Vérifiez votre connexion puis réessayez. Si le problème persiste, contactez l’enseignant.', 'err');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Déposer mon travail';
+    }
+  });
+</script>
 </body>
 </html>
