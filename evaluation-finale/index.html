@@ -19,6 +19,13 @@
     .lead{font-size:1.12rem;line-height:1.7;color:var(--muted);max-width:760px}
     .empty{margin:18px 0 72px;background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:20px;padding:40px;box-shadow:var(--shadow)}
     .empty h2{margin-top:0;color:var(--navy);font-size:1.45rem}.empty p{color:var(--muted);line-height:1.7;margin-bottom:0}
+    .submission-box{margin-top:24px;padding:26px;border:2px dashed #b8c7d8;border-radius:16px;background:#f8fbfd}
+    .submission-box h3{margin:0 0 10px;color:var(--navy);font-size:1.2rem}
+    .submission-box p{margin:0 0 14px;color:var(--muted);line-height:1.65}
+    .formats{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 18px}
+    .formats span{display:inline-block;padding:7px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:.85rem;font-weight:700;color:#34445b}
+    .upload-btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 16px;border-radius:9px;background:#d7dee7;color:#6b7280;font-weight:700;border:1px solid #c7d0db;cursor:not-allowed}
+    .upload-note{margin-top:12px!important;font-size:.9rem;color:#7a8594!important}
     .footer{border-top:1px solid var(--line);padding:24px 0 42px;color:var(--muted);font-size:.88rem}.footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     @media(max-width:760px){.top .tag{display:none}.hero{padding-top:34px}.empty{padding:26px}}
   </style>
@@ -45,8 +52,20 @@
     </div></section>
     <section><div class="wrap">
       <div class="empty">
-        <h2>Contenu à venir</h2>
+        <h2>Évaluation finale</h2>
         <p>L’évaluation finale permettra de mobiliser de manière intégrée les principaux outils, concepts et raisonnements étudiés au cours du module. Les consignes, documents et éventuelles ressources nécessaires seront mis à disposition dans cet espace dédié. Les rendus finaux devront également être déposés ici, dans l’espace réservé à l’évaluation finale.</p>
+        <div class="submission-box">
+          <h3>Dépôt des travaux finaux</h3>
+          <p>Déposez ici votre rendu final une fois l’évaluation terminée. Vérifiez que le fichier est correctement nommé et qu’il contient l’ensemble des éléments demandés avant l’envoi.</p>
+          <div class="formats" aria-label="Formats acceptés">
+            <span>Word (.doc, .docx)</span>
+            <span>PDF (.pdf)</span>
+            <span>Archive ZIP (.zip)</span>
+            <span>Archive RAR (.rar)</span>
+          </div>
+          <div class="upload-btn" aria-disabled="true">Déposer mon travail</div>
+          <p class="upload-note"><strong>Dépôt non encore activé.</strong> L’interface est prête ; l’envoi effectif des fichiers sera activé dès que le stockage sécurisé sera connecté.</p>
+        </div>
       </div>
     </div></section>
   </main>
