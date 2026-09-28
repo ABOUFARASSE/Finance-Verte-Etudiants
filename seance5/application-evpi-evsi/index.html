@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Application EVPI–EVSI–ENBS</title>
+<style>
+:root{--navy:#14213d;--teal:#0f766e;--bg:#f5f8fa;--card:#fff;--text:#273244;--muted:#667085;--line:#dfe6ee;--danger:#9b1c1c}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.wrap{width:min(1080px,calc(100% - 28px));margin:auto;padding:26px 0 40px}
+h1,h2,h3{color:var(--navy)} h1{font-size:clamp(1.8rem,4vw,2.8rem);margin:.2rem 0 .5rem} h2{margin-top:0}
+.lead{color:var(--muted);line-height:1.65;max-width:900px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 8px 24px rgba(20,33,61,.06)}
+.kpi{font-size:1.55rem;font-weight:800;color:var(--navy);margin-top:4px}.label{font-size:.84rem;color:var(--muted)}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:right;font-size:.92rem}th:first-child,td:first-child{text-align:left}th{background:#eef4f8;color:var(--navy)}
+.chart{width:100%;height:330px;background:#fff;border:1px solid var(--line);border-radius:12px;margin:12px 0}
+.note{padding:14px 16px;border-left:4px solid var(--teal);background:#eef8f6;border-radius:8px;line-height:1.6}
+.warn{padding:14px 16px;border-left:4px solid #b7791f;background:#fff8e8;border-radius:8px;line-height:1.6}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:14px}.controls label{font-weight:700}.controls input{width:100%}
+.output{margin-top:14px;padding:14px;background:#f8fbfd;border-radius:10px}
+.btn{display:inline-block;text-decoration:none;background:var(--navy);color:white;padding:10px 14px;border-radius:9px;font-weight:700;margin-top:8px}
+.small{font-size:.9rem;color:var(--muted);line-height:1.55}
+@media(max-width:760px){.grid,.controls{grid-template-columns:1fr}}
+</style>
+</head>
+<body><main class="wrap">
+<p class="small">Séance 5 · Acheter de l’information : EVPI, EVSI et pilote</p>
+<h1>Application pédagogique EVPI–EVSI–ENBS</h1>
+<p class="lead">Cette application illustre comment un comité d’investissement peut comparer trois projets verts sous incertitude, mesurer la valeur maximale d’une information parfaite (EVPI), estimer la valeur d’une étude imparfaite (EVSI) et vérifier si cette étude crée réellement de la valeur une fois son coût pris en compte (ENBS).</p>
+
+<div class="grid">
+<div class="card"><div class="label">Décision avec l’information actuelle</div><div class="kpi">Efficacité énergétique</div><p class="small">Valeur attendue : 180 000 €.</p></div>
+<div class="card"><div class="label">EVPI estimée</div><div class="kpi">242 €</div><p class="small">Plafond économique théorique de la valeur de l’information parfaite dans cette simulation.</p></div>
+<div class="card"><div class="label">Étude la moins défavorable testée</div><div class="kpi">n = 10</div><p class="small">ENBS ≈ −19 300 € : aucune taille testée ne couvre son coût.</p></div>
+</div>
+
+<section class="card">
+<h2>1. Point de départ : choisir avec l’information actuelle</h2>
+<table><thead><tr><th>Projet</th><th>Bénéfice net espéré</th></tr></thead><tbody>
+<tr><td>Efficacité énergétique</td><td>180 000 €</td></tr>
+<tr><td>Solaire PV</td><td>150 000 €</td></tr>
+<tr><td>Gestion de l’eau</td><td>120 000 €</td></tr>
+</tbody></table>
+<p class="note"><strong>Lecture :</strong> avec la moyenne a priori θ = 1, l’efficacité énergétique domine les deux autres options. Le comité choisit donc ce projet avant toute nouvelle étude.</p>
+</section>
+
+<section class="card">
+<h2>2. EVSI selon la taille de l’étude</h2>
+<div id="chart1" class="chart"></div>
+<p class="note"><strong>Lecture :</strong> l’EVSI représente ce que l’on gagne, en moyenne, parce que les résultats de l’étude peuvent modifier la décision. L’EVPI constitue le plafond théorique : une information imparfaite ne devrait pas avoir plus de valeur qu’une information parfaite.</p>
+</section>
+
+<section class="card">
+<h2>3. EVSI, coût de l’étude et ENBS</h2>
+<div id="chart2" class="chart"></div>
+<p class="note"><strong>Lecture :</strong> le coût de l’étude augmente beaucoup plus vite que la valeur décisionnelle obtenue. Dans les tailles testées, l’ENBS reste négative : sous ces hypothèses, acheter cette information n’est pas économiquement justifié.</p>
+</section>
+
+<section class="card">
+<h2>4. Frontières de décision entre projets</h2>
+<div id="chart3" class="chart"></div>
+<p class="note"><strong>Lecture :</strong> les trois droites se croisent autour de θ = 1,6. Tant que θ reste en dessous de ce seuil, l’efficacité énergétique conserve le bénéfice net le plus élevé. Comme la moyenne a priori vaut 1 et que σ = 0,30, ce changement de projet se situe assez loin dans la partie haute de la distribution ; cela explique pourquoi l’EVPI est faible.</p>
+</section>
+
+<section class="card">
+<h2>5. Exemple de mise à jour après une étude pilote</h2>
+<div class="controls">
+<div><label for="mean">Moyenne observée du pilote</label><input id="mean" type="range" min="0.5" max="1.8" step="0.01" value="1.18"><div id="meanval" class="small"></div></div>
+<div><label for="n">Taille d’étude n</label><input id="n" type="range" min="10" max="400" step="10" value="100"><div id="nval" class="small"></div></div>
+</div>
+<div id="posterior" class="output"></div>
+<p class="small">Le calcul utilise le même modèle normal-normal que le script Python fourni.</p>
+</section>
+
+<div class="warn"><strong>Attention pédagogique sur la simulation Monte Carlo :</strong> avec un nombre fini de tirages, les estimations peuvent présenter un léger bruit numérique. Une EVSI estimée légèrement négative, ou ponctuellement supérieure à l’EVPI estimée, ne doit pas être interprétée économiquement : théoriquement, l’EVSI est non négative et bornée par l’EVPI. Il faut lire ces petits écarts comme une erreur de simulation et augmenter le nombre de tirages si l’on souhaite les réduire.</div>
+
+<p><a class="btn" href="../application_evpi_evsi_finance_verte.py" download>Télécharger le script Python</a></p>
+
+</main>
+<script>
+const rows=[
+{n:10,evsi:200,cost:19500,enbs:-19300},{n:25,evsi:-164,cost:26250,enbs:-26414},
+{n:50,evsi:144,cost:37500,enbs:-37356},{n:100,evsi:159,cost:60000,enbs:-59841},
+{n:200,evsi:302,cost:105000,enbs:-104698},{n:400,evsi:449,cost:195000,enbs:-194551},
+{n:800,evsi:134,cost:375000,enbs:-374866},{n:1200,evsi:70,cost:555000,enbs:-554930}
+];
+const EVPI=242;
+function svgChart(el, series, yMin, yMax, titleY){
+ const w=900,h=300,p={l:70,r:30,t:20,b:50}; const xs=rows.map(r=>r.n);
+ const x=v=>p.l+(v-Math.min(...xs))/(Math.max(...xs)-Math.min(...xs))*(w-p.l-p.r);
+ const y=v=>p.t+(yMax-v)/(yMax-yMin)*(h-p.t-p.b);
+ let s='<svg viewBox="0 0 '+w+' '+h+'" width="100%" height="100%" role="img">';
+ for(let i=0;i<=4;i++){let yy=p.t+i*(h-p.t-p.b)/4;let val=yMax-i*(yMax-yMin)/4;s+='<line x1="'+p.l+'" y1="'+yy+'" x2="'+(w-p.r)+'" y2="'+yy+'" stroke="#e5e7eb"/><text x="'+(p.l-8)+'" y="'+(yy+4)+'" text-anchor="end" font-size="11" fill="#667085">'+Math.round(val).toLocaleString('fr-FR')+'</text>'}
+ s+='<line x1="'+p.l+'" y1="'+(h-p.b)+'" x2="'+(w-p.r)+'" y2="'+(h-p.b)+'" stroke="#98a2b3"/>';
+ xs.forEach(v=>s+='<text x="'+x(v)+'" y="'+(h-p.b+20)+'" text-anchor="middle" font-size="11" fill="#667085">'+v+'</text>');
+ series.forEach((ser,j)=>{let pts=rows.map(r=>x(r.n)+','+y(ser.f(r))).join(' ');s+='<polyline fill="none" stroke="'+ser.c+'" stroke-width="2.5" points="'+pts+'"/>';rows.forEach(r=>s+='<circle cx="'+x(r.n)+'" cy="'+y(ser.f(r))+'" r="3.2" fill="'+ser.c+'"/>')});
+ s+='<text x="'+(w/2)+'" y="'+(h-8)+'" text-anchor="middle" font-size="12" fill="#475467">Taille de l’étude n</text>';
+ s+='<text transform="translate(16 '+(h/2)+') rotate(-90)" text-anchor="middle" font-size="12" fill="#475467">'+titleY+'</text>';
+ let lx=p.l;series.forEach(ser=>{s+='<line x1="'+lx+'" y1="14" x2="'+(lx+22)+'" y2="14" stroke="'+ser.c+'" stroke-width="3"/><text x="'+(lx+28)+'" y="18" font-size="11" fill="#475467">'+ser.name+'</text>';lx+=150});
+ s+='</svg>'; el.innerHTML=s;
+}
+svgChart(document.getElementById('chart1'),[
+{name:'EVSI',c:'#0f766e',f:r=>r.evsi},{name:'EVPI',c:'#14213d',f:r=>EVPI}
+],-250,550,'Valeur de l’information (€)');
+svgChart(document.getElementById('chart2'),[
+{name:'EVSI',c:'#0f766e',f:r=>r.evsi},{name:'Coût',c:'#14213d',f:r=>r.cost},{name:'ENBS',c:'#9b1c1c',f:r=>r.enbs}
+],-600000,600000,'Euros');
+
+(function(){
+ const el=document.getElementById('chart3'),w=900,h=300,p={l:70,r:30,t:20,b:50};
+ const tmin=.1,tmax=1.9,ymin=-110000,ymax=300000;
+ const x=t=>p.l+(t-tmin)/(tmax-tmin)*(w-p.l-p.r), y=v=>p.t+(ymax-v)/(ymax-ymin)*(h-p.t-p.b);
+ const proj=[['Efficacité énergétique',180000,130000,'#14213d'],['Solaire PV',150000,180000,'#0f766e'],['Gestion de l’eau',120000,230000,'#9b1c1c']];
+ let s='<svg viewBox="0 0 '+w+' '+h+'" width="100%" height="100%">';
+ for(let i=0;i<=4;i++){let yy=p.t+i*(h-p.t-p.b)/4;let val=ymax-i*(ymax-ymin)/4;s+='<line x1="'+p.l+'" y1="'+yy+'" x2="'+(w-p.r)+'" y2="'+yy+'" stroke="#e5e7eb"/><text x="'+(p.l-8)+'" y="'+(yy+4)+'" text-anchor="end" font-size="11" fill="#667085">'+Math.round(val/1000)+' k€</text>'}
+ [0.4,0.8,1.0,1.2,1.6,1.8].forEach(t=>s+='<text x="'+x(t)+'" y="'+(h-p.b+20)+'" text-anchor="middle" font-size="11" fill="#667085">'+t.toFixed(1)+'</text>');
+ proj.forEach(q=>{let v1=q[1]+q[2]*(tmin-1),v2=q[1]+q[2]*(tmax-1);s+='<line x1="'+x(tmin)+'" y1="'+y(v1)+'" x2="'+x(tmax)+'" y2="'+y(v2)+'" stroke="'+q[3]+'" stroke-width="2.5"/>'});
+ s+='<line x1="'+x(1)+'" y1="'+p.t+'" x2="'+x(1)+'" y2="'+(h-p.b)+'" stroke="#667085" stroke-dasharray="6 5"/>';
+ s+='<line x1="'+x(1.6)+'" y1="'+p.t+'" x2="'+x(1.6)+'" y2="'+(h-p.b)+'" stroke="#d97706" stroke-dasharray="4 4"/>';
+ let lx=p.l;proj.forEach(q=>{s+='<line x1="'+lx+'" y1="14" x2="'+(lx+22)+'" y2="14" stroke="'+q[3]+'" stroke-width="3"/><text x="'+(lx+28)+'" y="18" font-size="11" fill="#475467">'+q[0]+'</text>';lx+=210});
+ s+='</svg>';el.innerHTML=s;
+})();
+
+const mean=document.getElementById('mean'), n=document.getElementById('n'), post=document.getElementById('posterior');
+function update(){
+ const m=+mean.value,N=+n.value,mu0=1,s0=.3,sy=.8;
+ const pv=1/(1/s0**2+N/sy**2), pm=pv*((1/s0**2)*mu0+(N/sy**2)*m), ps=Math.sqrt(pv);
+ const vals=[
+ ['Efficacité énergétique',180000+130000*(pm-1)],
+ ['Solaire PV',150000+180000*(pm-1)],
+ ['Gestion de l’eau',120000+230000*(pm-1)]
+ ].sort((a,b)=>b[1]-a[1]);
+ document.getElementById('meanval').textContent='Moyenne observée = '+m.toFixed(2);
+ document.getElementById('nval').textContent='n = '+N;
+ post.innerHTML='<strong>Moyenne a posteriori :</strong> '+pm.toFixed(3)+' · <strong>Écart-type posterior :</strong> '+ps.toFixed(3)+'<br><br><strong>Projet retenu :</strong> '+vals[0][0]+' ('+Math.round(vals[0][1]).toLocaleString('fr-FR')+' €)';
+}
+mean.oninput=n.oninput=update;update();
+</script>
+</body></html>
