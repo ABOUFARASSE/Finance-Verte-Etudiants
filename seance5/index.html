@@ -710,8 +710,34 @@ Investir maintenant vaut 195 kMAD en espérance. Attendre vaut environ 262,39 kM
 <span style="color:#5f6b7a;">Une fiche synthétique d’une page présente les définitions, les formules, un exemple numérique et l’interprétation économique de l’EVPI, de l’EVSI et de la valeur nette de l’information.</span></p>
 <p style="margin:0;"><a href="/Finance-Verte-Etudiants/seance5/EVPI_EVSI_format_academique.pdf" download class="btn btn-primary" role="button">Télécharger la fiche EVPI–EVSI (PDF)</a></p>
 </div>
+<section id="application-pedagogique-evpi-evsi-enbs" class="level2">
+<h2 class="anchored" data-anchor-id="application-pedagogique-evpi-evsi-enbs">7.1 Application pédagogique intégrée — EVPI, EVSI et ENBS</h2>
+<p>Cette application prolonge directement la logique de la section. Elle compare trois projets verts — efficacité énergétique, solaire photovoltaïque et gestion de l’eau — sous une incertitude commune portant sur un paramètre d’efficacité <span class="math inline">\(\theta\)</span>. Elle permet de suivre toute la chaîne de décision : choix avec l’information actuelle, calcul de l’EVPI, simulation de l’EVSI pour plusieurs tailles d’étude, calcul du coût de l’étude et détermination de l’ENBS.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center"><div class="callout-icon-container"><i class="callout-icon"></i></div><div class="callout-title-container flex-fill">Comment lire l’application</div></div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Décision initiale :</strong> avec l’information disponible, l’efficacité énergétique présente le bénéfice net espéré le plus élevé, soit 180&nbsp;000&nbsp;€.</li>
+<li><strong>EVPI :</strong> la simulation donne environ 242&nbsp;€. Cela signifie que, dans ce paramétrage, même une information parfaite sur <span class="math inline">\(\theta\)</span> a peu de valeur car elle change rarement le projet optimal.</li>
+<li><strong>EVSI et ENBS :</strong> les tailles d’étude testées produisent une valeur d’information très faible au regard de leur coût. L’ENBS reste négative ; sous les hypothèses retenues, il est donc préférable de décider avec l’information actuelle plutôt que de financer l’étude.</li>
+<li><strong>Exemple bayésien :</strong> pour une étude de taille 100 avec une moyenne observée de 1,18, la moyenne a posteriori passe à environ 1,168 mais le projet retenu reste l’efficacité énergétique.</li>
+</ul>
+</div>
+</div>
+<p><strong>Lecture des graphiques.</strong> Le premier graphique compare l’EVSI à l’EVPI, qui constitue le plafond théorique de la valeur de l’information. Le deuxième met en regard la valeur de l’information, le coût de l’étude et l’ENBS : il montre que le coût croît bien plus vite que le gain décisionnel. Le troisième représente les bénéfices nets des trois projets selon <span class="math inline">\(\theta\)</span> : les droites se rejoignent autour de <span class="math inline">\(\theta=1{,}6\)</span>, seuil au-delà duquel le classement peut changer.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center"><div class="callout-icon-container"><i class="callout-icon"></i></div><div class="callout-title-container flex-fill">Point d’attention — bruit Monte Carlo</div></div>
+<div class="callout-body-container callout-body">
+<p>Dans une simulation finie, de petits écarts numériques peuvent apparaître. Une EVSI estimée légèrement négative, ou ponctuellement supérieure à l’EVPI estimée, doit être interprétée comme du bruit de simulation et non comme un résultat économique : théoriquement, <span class="math inline">\(0 \leq EVSI \leq EVPI\)</span>.</p>
+</div>
+</div>
+<p><a href="/Finance-Verte-Etudiants/seance5/application-evpi-evsi/" target="_blank" class="btn btn-primary" role="button">Ouvrir l’application en plein écran</a> <a href="/Finance-Verte-Etudiants/seance5/application_evpi_evsi_finance_verte.py" download class="btn btn-outline-primary" role="button">Télécharger le script Python</a></p>
+<div style="margin:1.2rem 0 2rem;border:1px solid #d8e0e8;border-radius:14px;overflow:hidden;background:#fff;">
+<iframe src="/Finance-Verte-Etudiants/seance5/application-evpi-evsi/" title="Application pédagogique EVPI EVSI ENBS" style="width:100%;height:1150px;border:0;display:block;" loading="lazy"></iframe>
+</div>
+</section>
 <section id="valeur-de-linformation-parfaite" class="level2">
-<h2 class="anchored" data-anchor-id="valeur-de-linformation-parfaite">7.1 Valeur de l’information parfaite</h2>
+<h2 class="anchored" data-anchor-id="valeur-de-linformation-parfaite">7.2 Valeur de l’information parfaite</h2>
 <p><span class="math display">\[EVPI=E[\max_a V(a,s)]-\max_a E[V(a,s)].\]</span></p>
 <p>Elle constitue le prix maximal théorique d’une information parfaite. Une étude réelle, imparfaite et retardée vaut nécessairement moins, avant effets secondaires.</p>
 </section>
@@ -735,7 +761,7 @@ Sans information, investir vaut 195. Avec information parfaite, Atlas investit s
 </details>
 </section>
 <section id="information-imparfaite-et-bayes" class="level2">
-<h2 class="anchored" data-anchor-id="information-imparfaite-et-bayes">7.2 Information imparfaite et Bayes</h2>
+<h2 class="anchored" data-anchor-id="information-imparfaite-et-bayes">7.3 Information imparfaite et Bayes</h2>
 <p>Un pilote de précision 80 % donne un signal positif ou négatif. Les probabilités postérieures sont obtenues par Bayes, puis la décision optimale est recalculée après chaque signal.</p>
 </section>
 <section id="application-r-10-valeur-dun-pilote-imparfait" class="level2">
