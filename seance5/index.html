@@ -732,9 +732,40 @@ Investir maintenant vaut 195 kMAD en espérance. Attendre vaut environ 262,39 kM
 <p>Dans une simulation finie, de petits écarts numériques peuvent apparaître. Une EVSI estimée légèrement négative, ou ponctuellement supérieure à l’EVPI estimée, doit être interprétée comme du bruit de simulation et non comme un résultat économique : théoriquement, <span class="math inline">\(0 \leq EVSI \leq EVPI\)</span>.</p>
 </div>
 </div>
-<p><a href="/Finance-Verte-Etudiants/seance5/application-evpi-evsi/?v=20260928b" target="_blank" class="btn btn-primary" role="button">Ouvrir l’application en plein écran</a></p>
+<p><a href="/Finance-Verte-Etudiants/seance5/application-evpi-evsi/?v=20260928c" target="_blank" class="btn btn-primary" role="button">Ouvrir l’application en plein écran</a></p>
 <div style="margin:1.2rem 0 2rem;border:1px solid #d8e0e8;border-radius:14px;overflow:hidden;background:#fff;">
-<iframe src="/Finance-Verte-Etudiants/seance5/application-evpi-evsi/?v=20260928b" title="Application pédagogique EVPI EVSI ENBS" style="width:100%;height:1150px;border:0;display:block;" loading="lazy"></iframe>
+<iframe src="/Finance-Verte-Etudiants/seance5/application-evpi-evsi/?v=20260928c" title="Application pédagogique EVPI EVSI ENBS" style="width:100%;height:1150px;border:0;display:block;" loading="lazy"></iframe>
+</div>
+<div id="exercice-evpi-evsi-enbs" class="callout callout-style-default callout-tip callout-titled" style="margin-top:1.5rem;">
+<div class="callout-header d-flex align-content-center"><div class="callout-icon-container"><i class="callout-icon"></i></div><div class="callout-title-container flex-fill">Exercice complet — Faut-il acheter de l’information avant d’investir ?</div></div>
+<div class="callout-body-container callout-body">
+<p><strong>Contexte.</strong> Vous êtes membre du comité d’investissement d’Atlas Process. Trois projets verts sont en concurrence : efficacité énergétique, solaire photovoltaïque et gestion de l’eau. L’incertitude porte sur un paramètre d’efficacité <span class="math inline">\(\theta\)</span>. Votre objectif est de déterminer non seulement quel projet choisir, mais aussi si une étude pilote mérite d’être financée.</p>
+
+<ol>
+<li><strong>Décision initiale.</strong> À partir des bénéfices nets espérés (180 000 €, 150 000 € et 120 000 €), identifiez le projet retenu aujourd’hui et le coût d’opportunité par rapport au deuxième meilleur projet.</li>
+<li><strong>EVPI.</strong> L’EVPI est d’environ 242 €. Expliquez pourquoi cette valeur peut être faible même lorsque <span class="math inline">\(\theta\)</span> est incertain. Interprétez ce montant comme plafond de dépense pour éliminer entièrement l’incertitude.</li>
+<li><strong>EVSI.</strong> Pour <span class="math inline">\(n=10\)</span>, l’application estime une EVSI proche de 200 €. Expliquez ce que mesure cette valeur et pourquoi elle doit rester inférieure ou égale à l’EVPI en théorie.</li>
+<li><strong>ENBS.</strong> Avec un coût d’étude de 19 500 €, calculez <span class="math inline">\(ENBS=EVSI-C\)</span> et décidez si l’étude doit être financée.</li>
+<li><strong>Taille de l’étude.</strong> À partir du graphique « EVSI, coût et ENBS », expliquez pourquoi une étude plus grande n’est pas automatiquement économiquement préférable.</li>
+<li><strong>Frontière de décision.</strong> Le graphique des bénéfices nets montre un changement possible de classement autour de <span class="math inline">\(\theta\approx1{,}6\)</span>. Expliquez pourquoi la distance entre cette frontière et la moyenne a priori <span class="math inline">\(\mu_0=1\)</span> contribue à une EVPI faible.</li>
+<li><strong>Mise à jour bayésienne.</strong> Dans l’application, fixez <span class="math inline">\(n=100\)</span> et une moyenne observée de 1,18. Relevez la moyenne a posteriori et l’écart-type posterior, puis vérifiez si le projet recommandé change.</li>
+<li><strong>Contre-factuel.</strong> Supposez qu’un pilote de taille 10 coûte seulement 150 € et garde une EVSI proche de 200 €. Calculez l’ENBS et expliquez comment la recommandation change.</li>
+<li><strong>Recommandation au comité.</strong> Rédigez 5 à 8 lignes indiquant le projet retenu aujourd’hui, la signification de l’EVPI, l’intérêt ou non d’un pilote, le rôle de l’ENBS et une condition qui vous conduirait à revoir la décision.</li>
+</ol>
+
+<details class="correction">
+<summary>Correction guidée</summary>
+<p><strong>1.</strong> L’efficacité énergétique est retenue avec 180 000 €. Le coût d’opportunité par rapport au solaire est de 30 000 €.</p>
+<p><strong>2.</strong> L’EVPI mesure la valeur décisionnelle de la suppression de l’incertitude, pas l’ampleur de l’incertitude elle-même. Elle est faible parce que le projet optimal change rarement dans les états plausibles.</p>
+<p><strong>3.</strong> L’EVSI mesure le gain attendu obtenu grâce à une étude imparfaite. En théorie, <span class="math inline">\(0\le EVSI\le EVPI\)</span>.</p>
+<p><strong>4.</strong> ENBS ≈ 200 − 19 500 = <strong>−19 300 €</strong>. L’étude n’est pas économiquement justifiée sous ces hypothèses.</p>
+<p><strong>5.</strong> Une étude plus grande améliore la précision mais son coût augmente plus vite que la valeur décisionnelle supplémentaire.</p>
+<p><strong>6.</strong> La frontière vers 1,6 est éloignée de la moyenne a priori 1,0. Les situations dans lesquelles l’information change effectivement la décision sont donc relativement rares.</p>
+<p><strong>7.</strong> Pour n = 100 et une moyenne observée de 1,18, la moyenne a posteriori est d’environ 1,168 et l’incertitude diminue fortement, mais l’efficacité énergétique reste optimale.</p>
+<p><strong>8.</strong> ENBS ≈ 200 − 150 = <strong>+50 €</strong>. Dans ce contre-factuel, le pilote devient économiquement défendable.</p>
+<p><strong>9.</strong> La recommandation doit distinguer clairement précision statistique, valeur de l’information et coût de l’information.</p>
+</details>
+</div>
 </div>
 </section>
 <section id="valeur-de-linformation-parfaite" class="level2">
