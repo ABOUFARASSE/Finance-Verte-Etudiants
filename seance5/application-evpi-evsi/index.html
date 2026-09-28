@@ -21,6 +21,21 @@ table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;ove
 .output{margin-top:14px;padding:14px;background:#f8fbfd;border-radius:10px}
 .btn{display:inline-block;text-decoration:none;background:var(--navy);color:white;padding:10px 14px;border-radius:9px;font-weight:700;margin-top:8px}
 .small{font-size:.9rem;color:var(--muted);line-height:1.55}
+.exercise{margin:28px 0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px}
+.exercise-head{padding:18px;border-radius:12px;background:#eef4f8;margin-bottom:18px}
+.exercise-step{border-top:1px solid var(--line);padding:20px 0}
+.exercise-step:first-of-type{border-top:0}
+.exercise-step h3{margin:0 0 10px}
+.question{padding:12px 14px;background:#f8fafc;border-left:4px solid var(--navy);border-radius:7px;line-height:1.6;margin:10px 0}
+details.answer{margin:10px 0;border:1px solid #cfe3df;border-radius:9px;background:#f4fbf9}
+details.answer summary{cursor:pointer;font-weight:750;color:var(--teal);padding:11px 13px}
+details.answer>div{padding:0 13px 13px;line-height:1.65}
+.badge{display:inline-block;font-size:.78rem;font-weight:800;padding:5px 8px;border-radius:999px;background:#e8eef5;color:var(--navy);margin-right:6px}
+.decision-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.decision-grid>div{padding:12px;border:1px solid var(--line);border-radius:10px;background:#fbfcfd}
+.memo{width:100%;min-height:130px;padding:12px;border:1px solid #cfd8e3;border-radius:9px;font:inherit;resize:vertical}
+.checklist label{display:block;margin:7px 0}
+@media(max-width:760px){.decision-grid{grid-template-columns:1fr}}
 @media(max-width:760px){.grid,.controls{grid-template-columns:1fr}}
 </style>
 </head>
@@ -71,6 +86,115 @@ table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;ove
 </div>
 <div id="posterior" class="output"></div>
 <p class="small">Le calcul utilise le même modèle normal-normal que le script Python fourni.</p>
+</section>
+
+<section class="exercise" id="exercice-complet">
+<div class="exercise-head">
+<span class="badge">Exercice guidé complet</span><span class="badge">Comité d’investissement</span>
+<h2>Faut-il acheter de l’information avant d’investir ?</h2>
+<p>Vous êtes membre du comité d’investissement d’Atlas Process. Trois projets verts sont en concurrence. La décision dépend d’un paramètre d’efficacité incertain <strong>θ</strong>. Votre mission n’est pas seulement de calculer : vous devez déterminer <strong>si l’incertitude mérite d’être réduite, combien l’information peut valoir, et à quelles conditions une étude pilote est économiquement justifiée</strong>.</p>
+<div class="decision-grid">
+<div><strong>Information actuelle</strong><br><span class="small">θ ~ N(1 ; 0,30²)</span></div>
+<div><strong>Coût de l’étude</strong><br><span class="small">15 000 € + 450 € × n</span></div>
+<div><strong>Règle finale</strong><br><span class="small">ENBS = EVSI − coût de l’étude</span></div>
+</div>
+</div>
+
+<div class="exercise-step">
+<h3>Étape 1 — Décider avant d’acheter de l’information</h3>
+<div class="question"><strong>Q1.</strong> À partir du tableau des bénéfices nets espérés, quel projet doit être retenu aujourd’hui ? Quel est le coût d’opportunité du choix par rapport au deuxième meilleur projet ?</div>
+<details class="answer"><summary>Afficher la correction</summary><div>
+Le projet retenu est <strong>l’efficacité énergétique</strong>, avec 180 000 €. Le deuxième meilleur projet est le solaire PV à 150 000 €. Le coût d’opportunité d’un basculement vers le solaire, avec l’information actuelle, est donc de <strong>30 000 €</strong>. La première leçon est qu’une étude n’a de valeur que si elle peut raisonnablement modifier ce classement.
+</div></details>
+</div>
+
+<div class="exercise-step">
+<h3>Étape 2 — Comprendre ce que mesure réellement l’EVPI</h3>
+<div class="question"><strong>Q2.</strong> L’EVPI simulée est d’environ 242 €. Pourquoi est-elle si faible alors que θ est incertain ? Que signifie précisément ce montant pour le comité ?</div>
+<details class="answer"><summary>Afficher la correction</summary><div>
+L’EVPI ne mesure pas « la quantité d’incertitude » en soi. Elle mesure la <strong>valeur décisionnelle de supprimer cette incertitude</strong>. Ici, l’efficacité énergétique reste optimale dans la grande majorité des états plausibles de θ. Connaître parfaitement θ change donc rarement l’action. Une EVPI d’environ 242 € signifie qu’un décideur cohérent ne devrait pas payer davantage que ce montant, en espérance, pour une information parfaite portant uniquement sur cette décision et ce paramètre.
+</div></details>
+<div class="question"><strong>Q3.</strong> Une étude pilote coûtant 5 000 € peut-elle être justifiée si l’EVPI vaut 242 € ? Expliquez sans calculer l’EVSI.</div>
+<details class="answer"><summary>Afficher la correction</summary><div>
+Non, sous les hypothèses du modèle. L’EVPI est une <strong>borne supérieure</strong> de la valeur de toute information imparfaite. Si même une information parfaite ne vaut qu’environ 242 €, une étude imparfaite coûtant 5 000 € ne peut pas être rentable du seul point de vue de l’amélioration de cette décision. Elle pourrait néanmoins avoir d’autres bénéfices non modélisés — apprentissage transférable, conformité, sécurité, acceptabilité — qui devraient alors être explicités séparément.
+</div></details>
+</div>
+
+<div class="exercise-step">
+<h3>Étape 3 — Passer de l’information parfaite à une étude réelle : EVSI</h3>
+<div class="question"><strong>Q4.</strong> Pour n = 10, l’application estime une EVSI d’environ 200 € et un coût d’étude de 19 500 €. Calculez l’ENBS et formulez la décision économique.</div>
+<details class="answer"><summary>Afficher la correction</summary><div>
+ENBS ≈ 200 − 19 500 = <strong>−19 300 €</strong>. L’étude détruit donc de la valeur attendue dans ce cadre. Le comité devrait décider avec l’information actuelle plutôt que financer cette étude.
+</div></details>
+<div class="question"><strong>Q5.</strong> Pourquoi une étude plus grande n’est-elle pas automatiquement meilleure ? Utilisez le graphique « EVSI, coût et ENBS ».</div>
+<details class="answer"><summary>Afficher la correction</summary><div>
+Augmenter n améliore la précision statistique, mais la valeur économique de cette précision présente des rendements décroissants : une fois que l’information additionnelle modifie rarement la décision, son gain est faible. En revanche, le coût de l’étude augmente ici linéairement avec n. Il faut donc maximiser <strong>la valeur nette de l’information</strong>, et non la précision statistique. Une étude peut être techniquement excellente et économiquement injustifiée.
+</div></details>
+</div>
+
+<div class="exercise-step">
+<h3>Étape 4 — Lire les frontières de décision</h3>
+<div class="question"><strong>Q6.</strong> Le troisième graphique montre que les bénéfices nets des projets se rejoignent autour de θ = 1,6. Que représente économiquement ce seuil ? Pourquoi est-il central pour comprendre la faible EVPI ?</div>
+<details class="answer"><summary>Afficher la correction</summary><div>
+Autour de θ = 1,6, le classement des projets peut changer : c’est une <strong>frontière de décision</strong>. L’information a surtout de la valeur lorsqu’elle permet de savoir de quel côté d’une telle frontière se trouve la réalité. Or la moyenne a priori est θ = 1 et l’écart-type vaut 0,30. Le seuil de 1,6 se situe donc environ deux écarts-types au-dessus de la moyenne. Les états où l’information change effectivement le choix sont relativement rares, ce qui explique la faible EVPI.
+</div></details>
+</div>
+
+<div class="exercise-step">
+<h3>Étape 5 — Mettre à jour la décision après un pilote</h3>
+<div class="question"><strong>Q7.</strong> Placez la taille d’étude à n = 100 et la moyenne observée à 1,18 dans le simulateur ci-dessus. Comment évoluent la moyenne a posteriori, l’incertitude et le projet retenu ?</div>
+<details class="answer"><summary>Afficher la correction</summary><div>
+La moyenne a posteriori se rapproche fortement du signal observé : elle passe d’une moyenne a priori de 1 à environ <strong>1,168</strong>. L’écart-type posterior diminue fortement, ce qui traduit une réduction de l’incertitude. Malgré cela, l’efficacité énergétique demeure le projet optimal. C’est un exemple important : <strong>une étude peut produire beaucoup d’apprentissage statistique sans produire beaucoup de valeur décisionnelle</strong>.
+</div></details>
+<div class="question"><strong>Q8.</strong> Faites varier la moyenne observée vers le haut. À partir de quel ordre de grandeur le projet recommandé commence-t-il à changer ? Reliez votre réponse au seuil θ ≈ 1,6.</div>
+<details class="answer"><summary>Afficher la correction</summary><div>
+Le changement se produit lorsque la moyenne a posteriori s’approche de la frontière de décision autour de 1,6. Un signal élevé ne suffit pas toujours : sa traduction en posterior dépend aussi de n et de la précision du pilote. Plus n est grand, plus le posterior suit fortement le signal observé.
+</div></details>
+</div>
+
+<div class="exercise-step">
+<h3>Étape 6 — Distinguer trois questions souvent confondues</h3>
+<div class="question"><strong>Q9.</strong> Associez chaque indicateur à la bonne question managériale :</div>
+<table>
+<thead><tr><th>Indicateur</th><th>Question à laquelle il répond</th></tr></thead>
+<tbody>
+<tr><td>EVPI</td><td>Combien vaudrait au maximum la disparition complète de l’incertitude ?</td></tr>
+<tr><td>EVSI</td><td>Combien vaut l’information réellement produite par une étude donnée avant son coût ?</td></tr>
+<tr><td>ENBS</td><td>La valeur de l’étude dépasse-t-elle son coût ?</td></tr>
+</tbody>
+</table>
+<details class="answer"><summary>Afficher la correction commentée</summary><div>
+Le raisonnement doit respecter l’ordre : <strong>EVPI → EVSI → ENBS</strong>. L’EVPI indique d’abord si le problème mérite potentiellement de l’information. L’EVSI évalue ensuite une étude réaliste. L’ENBS tranche enfin la question économique en retranchant le coût de cette étude.
+</div></details>
+</div>
+
+<div class="exercise-step">
+<h3>Étape 7 — Contre-factuel : quand un pilote pourrait-il devenir intéressant ?</h3>
+<div class="question"><strong>Q10.</strong> Supposez, uniquement pour cet exercice, qu’un pilote de n = 10 puisse être réalisé pour 150 € au total et que son EVSI reste proche de 200 €. Quelle serait l’ENBS ? Que change ce contre-factuel dans votre recommandation ?</div>
+<details class="answer"><summary>Afficher la correction</summary><div>
+ENBS ≈ 200 − 150 = <strong>+50 €</strong>. Le pilote deviendrait alors économiquement défendable. Ce contre-factuel montre que la question n’est pas « faut-il toujours collecter plus d’information ? », mais « <strong>la valeur attendue de l’information dépasse-t-elle son coût ?</strong> ». Le même dispositif statistique peut être rationnel ou non selon son coût.
+</div></details>
+</div>
+
+<div class="exercise-step">
+<h3>Étape 8 — Recommandation au comité</h3>
+<div class="question"><strong>Q11.</strong> Rédigez une recommandation de 5 à 8 lignes au comité d’investissement. Elle doit mentionner : le projet retenu aujourd’hui, l’EVPI, l’intérêt ou non d’un pilote, le rôle de l’ENBS et une condition qui pourrait vous conduire à réviser la décision.</div>
+<textarea class="memo" placeholder="Rédigez ici votre recommandation..."></textarea>
+<details class="answer"><summary>Afficher un exemple de réponse</summary><div>
+Avec l’information actuellement disponible, nous recommandons le projet d’efficacité énergétique, dont le bénéfice net espéré est de 180 000 €. L’EVPI d’environ 242 € montre que la suppression complète de l’incertitude sur θ aurait une valeur décisionnelle très faible. Les études testées ont un coût très supérieur à leur EVSI et présentent donc une ENBS négative ; elles ne doivent pas être financées dans le seul but d’améliorer ce choix. La décision peut être prise aujourd’hui. Elle devrait toutefois être réexaminée si le coût d’un pilote devient très faible, si de nouvelles informations déplacent fortement la distribution de θ vers la frontière de décision, ou si l’étude génère des bénéfices additionnels non inclus dans le modèle.
+</div></details>
+</div>
+
+<div class="exercise-step">
+<h3>Grille d’auto-évaluation</h3>
+<div class="checklist">
+<label><input type="checkbox"> Je sais distinguer incertitude statistique et valeur décisionnelle de l’information.</label>
+<label><input type="checkbox"> Je sais expliquer pourquoi EVPI est une borne supérieure de l’EVSI.</label>
+<label><input type="checkbox"> Je sais utiliser ENBS pour décider de financer ou non une étude.</label>
+<label><input type="checkbox"> Je sais interpréter une frontière de décision et une mise à jour bayésienne.</label>
+<label><input type="checkbox"> Je sais formuler une recommandation au comité sans confondre précision statistique et rentabilité économique.</label>
+</div>
+</div>
 </section>
 
 <div class="warn"><strong>Attention pédagogique sur la simulation Monte Carlo :</strong> avec un nombre fini de tirages, les estimations peuvent présenter un léger bruit numérique. Une EVSI estimée légèrement négative, ou ponctuellement supérieure à l’EVPI estimée, ne doit pas être interprétée économiquement : théoriquement, l’EVSI est non négative et bornée par l’EVPI. Il faut lire ces petits écarts comme une erreur de simulation et augmenter le nombre de tirages si l’on souhaite les réduire.</div>
