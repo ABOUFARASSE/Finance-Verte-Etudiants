@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Comité AquaSmart — EVPI, EVSI, ENBS</title>
+<style>
+:root{--navy:#14213d;--green:#1f6b4f;--green2:#eef7f3;--bg:#f5f8fa;--paper:#fff;--text:#263244;--muted:#687386;--line:#dfe6ee;--ok:#17653b;--bad:#9a1f1f;--warn:#946200}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif}.wrap{width:min(1180px,calc(100% - 28px));margin:auto;padding:22px 0 44px}h1,h2,h3{color:var(--navy)}h1{font-size:clamp(1.9rem,4vw,2.8rem);margin:.15rem 0 .4rem}.lead{color:var(--muted);line-height:1.65}.brief{border-left:5px solid var(--green);background:var(--green2);padding:1rem 1.2rem;border-radius:8px;line-height:1.65}.topgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 8px 24px rgba(20,33,61,.05)}label{font-weight:700;font-size:.92rem}input[type=text],input[type=number],textarea,select{width:100%;padding:10px 11px;border:1px solid #c9d3df;border-radius:8px;font:inherit;background:white}textarea{min-height:105px;resize:vertical}.roles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:18px 0}.tabs button{border:1px solid #cbd5e1;background:white;color:var(--navy);padding:9px 11px;border-radius:9px;font-weight:750;cursor:pointer}.tabs button.active{background:var(--navy);color:#fff;border-color:var(--navy)}.panel{display:none}.panel.active{display:block}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.four{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}th{background:#eef3f7;color:var(--navy)}.metric{padding:14px;border:1px solid var(--line);border-radius:10px;background:#fbfcfd}.metric b{display:block;font-size:1.35rem;color:var(--navy);margin-top:4px}.btn{display:inline-block;border:0;background:var(--navy);color:#fff;padding:10px 14px;border-radius:9px;font-weight:750;cursor:pointer}.btn.secondary{background:var(--green)}.msg{display:none;margin-top:12px;padding:10px 12px;border-radius:8px}.msg.ok{display:block;background:#eefaf4;color:var(--ok);border:1px solid #bfe6cf}.msg.bad{display:block;background:#fff1f1;color:var(--bad);border:1px solid #f0c4c4}.info{padding:12px 14px;background:#eef5ff;border-left:4px solid #315f91;border-radius:8px;line-height:1.6}.warn{padding:12px 14px;background:#fff8e8;border-left:4px solid #b7791f;border-radius:8px;line-height:1.6}.progress{height:12px;background:#e8edf3;border-radius:999px;overflow:hidden}.progress span{display:block;height:100%;background:var(--green);width:0}.small{font-size:.89rem;color:var(--muted);line-height:1.55}.scoregrid{display:grid;grid-template-columns:1fr 90px;gap:8px;align-items:center}.footer{margin-top:26px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:.88rem}@media(max-width:820px){.roles,.topgrid,.two,.four{grid-template-columns:1fr}.tabs button{flex:1 1 45%}}
+</style>
+</head>
+<body><main class="wrap">
+<p class="small">Séance 5 · Décision sous incertitude · EVPI · EVSI · ENBS</p>
+<h1>Comité d’investissement AquaSmart</h1>
+<p class="lead">Exercice autonome : décider s’il convient d’investir immédiatement dans AquaSmart, de renoncer, ou de commander auparavant un pilote imparfaitement informatif.</p>
+
+<div class="card">
+<h3>Constitution du comité</h3>
+<div class="roles">
+<div><label>Nom du groupe</label><input id="team" type="text"></div>
+<div><label>Présidence</label><input id="chair" type="text"></div>
+<div><label>Responsable financier</label><input id="analyst" type="text"></div>
+<div><label>Responsable risques/ESG</label><input id="risk" type="text"></div>
+</div>
+<p class="small"><strong>Durée indicative :</strong> 60–75 minutes · instruction 20 min · calculs guidés 20 min · délibération 20 min · note 15 min.</p>
+</div>
+
+<div class="tabs" id="tabs">
+<button data-tab="t1" class="active">1 · Convocation</button><button data-tab="t2">2 · Dossier</button><button data-tab="t3">3 · Sans information</button><button data-tab="t4">4 · EVPI</button><button data-tab="t5">5 · EVSI–ENBS</button><button data-tab="t6">6 · Simulation</button><button data-tab="t7">7 · Délibération</button><button data-tab="t8">8 · Note</button>
+</div>
+
+<section id="t1" class="panel active card">
+<h2>Convocation du comité</h2>
+<div class="brief"><b>Entreprise :</b> AquaNord Industries<br><b>Projet :</b> AquaSmart, recyclage et pilotage intelligent de l’eau.<br><b>Décision :</b> investir immédiatement, renoncer, ou commander un pilote.</div>
+<p>AquaNord exploite un site soumis à une tension croissante sur l’eau. AquaSmart pourrait réduire les prélèvements, mais sa performance dépend de sa compatibilité avec les procédés industriels.</p>
+<p><strong>Mandat :</strong> décider sans information, valoriser une information parfaite, évaluer le pilote imparfait, établir une règle conditionnelle et rédiger une résolution argumentée.</p>
+</section>
+
+<section id="t2" class="panel card">
+<h2>Dossier remis aux membres</h2>
+<div class="two"><div><h3>États du monde</h3><table><thead><tr><th>État</th><th>Probabilité</th><th>VAN investissement</th><th>VAN renoncement</th></tr></thead><tbody><tr><td>Favorable</td><td>0,60</td><td>30 000 €</td><td>0 €</td></tr><tr><td>Défavorable</td><td>0,40</td><td>−20 000 €</td><td>0 €</td></tr></tbody></table></div><div><h3>Précision du pilote</h3><table><thead><tr><th>État réel</th><th>P(signal + | état)</th><th>P(signal − | état)</th></tr></thead><tbody><tr><td>Favorable</td><td>0,80</td><td>0,20</td></tr><tr><td>Défavorable</td><td>0,25</td><td>0,75</td></tr></tbody></table><div class="metric"><span>Coût du pilote</span><b>1 500 €</b></div></div></div>
+<p class="info">Le pilote ne produit aucun bénéfice direct : sa valeur vient exclusivement de sa capacité à modifier la décision.</p>
+</section>
+
+<section id="t3" class="panel card">
+<h2>Étape 1 — Décider sans information</h2>
+<p><strong>EMV(investir) = P(F) × VAN<sub>F</sub> + P(D) × VAN<sub>D</sub></strong></p>
+<div class="two"><div><label>Valeur espérée de l’investissement (€)</label><input id="baselineAnswer" type="number" step="500" value="0"></div><div><label>Décision initiale</label><select id="baselineChoice"><option>Investir immédiatement</option><option>Renoncer</option></select></div></div>
+<p><button class="btn" id="check1">Vérifier l’étape 1</button></p><div id="msg1" class="msg"></div>
+<label>Argument du responsable financier</label><textarea id="baseline_argument" placeholder="Pourquoi une décision optimale peut-elle rester risquée ?"></textarea>
+</section>
+
+<section id="t4" class="panel card">
+<h2>Étape 2 — Information parfaite</h2>
+<p>Avec une information parfaite, le comité investirait uniquement dans l’état favorable.</p>
+<div class="two"><div><label>Valeur avec information parfaite (€)</label><input id="perfectAnswer" type="number" step="500" value="0"></div><div><label>EVPI (€)</label><input id="evpiAnswer" type="number" step="500" value="0"></div></div>
+<p><button class="btn" id="check2">Vérifier l’étape 2</button></p><div id="msg2" class="msg"></div>
+<label>Interprétation de l’EVPI</label><textarea id="evpi_argument" placeholder="Expliquez pourquoi l’EVPI constitue un plafond."></textarea>
+</section>
+
+<section id="t5" class="panel card">
+<h2>Étape 3 — Pilote imparfait, EVSI et ENBS</h2>
+<p>Les probabilités postérieures sont fournies afin de concentrer la séance sur la décision.</p>
+<table><thead><tr><th>Signal</th><th>P(signal)</th><th>P(favorable | signal)</th><th>VAN conditionnelle</th><th>Décision</th></tr></thead><tbody><tr><td>Positif</td><td>0,58</td><td>0,8276</td><td>21 379 €</td><td>Investir dans AquaSmart</td></tr><tr><td>Négatif</td><td>0,42</td><td>0,2857</td><td>−5 714 €</td><td>Renoncer à AquaSmart</td></tr></tbody></table>
+<div class="four" style="margin-top:14px"><div><label>EVSI (€)</label><input id="evsiAnswer" type="number" step="100" value="0"></div><div><label>Coût (€)</label><input id="costAnswer" type="number" step="100" value="1500"></div><div><label>ENBS (€)</label><input id="enbsAnswer" type="number" step="100" value="0"></div><div><label>Décision</label><select id="buyAnswer"><option>—</option><option>Commander le pilote</option><option>Investir sans pilote</option><option>Renoncer</option></select></div></div>
+<p><button class="btn" id="check3">Vérifier l’étape 3</button></p><div id="msg3" class="msg"></div>
+<label>Pourquoi renoncer après un signal négatif ?</label><textarea id="signal_argument"></textarea>
+<label>Justification de l’achat du pilote</label><textarea id="pilot_argument"></textarea>
+</section>
+
+<section id="t6" class="panel card">
+<h2>Étape 4 — Tirage d’un signal</h2>
+<p>Cette simulation distingue la qualité de la décision ex ante de son résultat ex post.</p>
+<p><button class="btn secondary" id="simulate">Lancer le pilote</button></p>
+<div id="simResult"></div>
+<p class="info">Une bonne décision est jugée à partir de l’information disponible au moment du choix, non du seul résultat ultérieur.</p>
+</section>
+
+<section id="t7" class="panel card">
+<h2>Délibération collective</h2>
+<label>Conditions et garde-fous</label><textarea id="safeguards" placeholder="Seuil maximal du pilote, gouvernance, indicateurs eau, clause d’arrêt…"></textarea>
+<label>Résolution finale</label><textarea id="resolution" placeholder="Le comité décide de… parce que… Après le signal… La décision sera revue si…"></textarea>
+<h3>Autoévaluation</h3><div class="scoregrid"><span>Cohérence économique</span><input id="s1" type="number" min="0" max="2" value="0"><span>Interprétation EVPI</span><input id="s2" type="number" min="0" max="2" value="0"><span>Interprétation EVSI/ENBS</span><input id="s3" type="number" min="0" max="2" value="0"><span>Règle conditionnelle</span><input id="s4" type="number" min="0" max="2" value="0"><span>Garde-fous</span><input id="s5" type="number" min="0" max="2" value="0"></div>
+</section>
+
+<section id="t8" class="panel card">
+<h2>Note de décision</h2>
+<p id="progressText" class="small"></p><div class="progress"><span id="progressBar"></span></div>
+<p>Lorsque le dossier est suffisamment complété, générez la note du comité. Le document reprend votre composition, les résultats structurants et vos arguments.</p>
+<button class="btn" id="downloadMemo">Télécharger la note du comité (.doc)</button>
+<p class="warn">Le corrigé enseignant n’est pas publié dans cette version étudiante de l’application.</p>
+</section>
+
+<div class="footer">Exercice autonome — sans lien avec l’évaluation finale du module.</div>
+</main>
+<script>
+const BASELINE=10000, PERFECT=18000, EVPI=8000, EVSI=2400, PILOT=1500, ENBS=900;
+const pPos=.58,pNeg=.42,postPos=.8275862069,postNeg=.2857142857,emvPos=21379.3103,emvNeg=-5714.2857;
+const tabs=document.querySelectorAll('#tabs button'), panels=document.querySelectorAll('.panel');
+tabs.forEach(b=>b.onclick=()=>{tabs.forEach(x=>x.classList.remove('active'));panels.forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});updateProgress();});
+function setMsg(id,ok,text){const e=document.getElementById(id);e.className='msg '+(ok?'ok':'bad');e.textContent=text;}
+document.getElementById('check1').onclick=()=>{const ok=+document.getElementById('baselineAnswer').value===10000&&document.getElementById('baselineChoice').value==='Investir immédiatement';setMsg('msg1',ok,ok?'Correct : 10 000 € > 0 € ; investir immédiatement.':'Recalculez 0,60×30 000 + 0,40×(−20 000), puis comparez à 0.');};
+document.getElementById('check2').onclick=()=>{const ok=+document.getElementById('perfectAnswer').value===18000&&+document.getElementById('evpiAnswer').value===8000;setMsg('msg2',ok,ok?'Correct : valeur parfaite 18 000 € ; EVPI 8 000 €.':'Dans chaque état, retenez la meilleure action, puis retranchez la valeur sans information.');};
+document.getElementById('check3').onclick=()=>{const ok=+document.getElementById('evsiAnswer').value===2400&&+document.getElementById('costAnswer').value===1500&&+document.getElementById('enbsAnswer').value===900&&document.getElementById('buyAnswer').value==='Commander le pilote';setMsg('msg3',ok,ok?'Correct : EVSI 2 400 €, ENBS 900 € ; commander le pilote.':'Utilisez ENBS = EVSI − coût ; achetez l’information si ENBS > 0.');};
+document.getElementById('simulate').onclick=()=>{const sig=Math.random()<pPos?'Positif':'Négatif';const dec=sig==='Positif'?'Investir dans AquaSmart':'Renoncer à AquaSmart';document.getElementById('simResult').innerHTML='<div class="topgrid"><div class="metric"><span>Signal observé</span><b>'+sig+'</b></div><div class="metric"><span>Règle appliquée</span><b>'+dec+'</b></div></div>';};
+const fields=['team','baseline_argument','evpi_argument','signal_argument','pilot_argument','safeguards','resolution'];
+function val(id){return (document.getElementById(id)?.value||'').trim();}
+function updateProgress(){const done=fields.filter(x=>val(x)).length;document.getElementById('progressText').textContent='Dossier complété : '+done+'/'+fields.length;document.getElementById('progressBar').style.width=(100*done/fields.length)+'%';}
+document.querySelectorAll('input,textarea,select').forEach(x=>x.addEventListener('input',updateProgress));updateProgress();
+function esc(s){return s.replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));}
+document.getElementById('downloadMemo').onclick=()=>{updateProgress();const d=new Date().toLocaleDateString('fr-FR');const html='<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{font-family:Aptos,Arial,sans-serif;font-size:11pt;line-height:1.45}h1{text-align:center}h2{margin-top:20px}</style></head><body><h1>NOTE DE DÉCISION — COMITÉ AQUASMART</h1><p style="text-align:center"><b>AquaNord Industries — '+esc(val('team')||'Groupe non renseigné')+'</b><br>'+d+'</p><h2>Composition</h2><p>Présidence : '+esc(val('chair')||'—')+'<br>Responsable financier : '+esc(val('analyst')||'—')+'<br>Responsable risques/ESG : '+esc(val('risk')||'—')+'</p><h2>1. Décision sans information</h2><p>La valeur espérée d’un investissement immédiat est de 10 000 €. La décision économiquement optimale est d’investir.</p><p>'+esc(val('baseline_argument')||'Argument non renseigné.')+'</p><h2>2. Valeur de l’information parfaite</h2><p>La valeur avec information parfaite est de 18 000 € et l’EVPI de 8 000 €.</p><p>'+esc(val('evpi_argument')||'Interprétation non renseignée.')+'</p><h2>3. Pilote et règle conditionnelle</h2><p>Après un signal positif, la VAN conditionnelle est de 21 379 € : investir. Après un signal négatif, elle est de −5 714 € : renoncer.</p><p>'+esc(val('signal_argument')||'Argument non renseigné.')+'</p><h2>4. EVSI et bénéfice net</h2><p>L’EVSI est de 2 400 €. Pour un coût de 1 500 €, l’ENBS est de 900 €. Le pilote doit être commandé.</p><p>'+esc(val('pilot_argument')||'Justification non renseignée.')+'</p><h2>5. Conditions et garde-fous</h2><p>'+esc(val('safeguards')||'Conditions non renseignées.')+'</p><h2>6. Résolution</h2><p>'+esc(val('resolution')||'Résolution non renseignée.')+'</p></body></html>';const blob=new Blob(['\ufeff'+html],{type:'application/msword'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Note_Comite_AquaSmart.doc';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);};
+</script>
+</body></html>
