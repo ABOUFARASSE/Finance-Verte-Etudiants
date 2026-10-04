@@ -3,68 +3,149 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Téléchargement PDF académique - Solaria</title>
-<style>body{font-family:Georgia,serif;max-width:720px;margin:60px auto;padding:0 24px;line-height:1.6;color:#111}button{background:#0f766e;color:#fff;border:0;border-radius:8px;padding:12px 18px;font-weight:700;cursor:pointer}</style>
+<title>Téléchargement PDF Solaria</title>
+<style>html,body{margin:0;width:0;height:0;overflow:hidden;background:transparent}</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-<h1>Cas réel InvestEU - Solaria</h1>
-<p>Le PDF académique de l'exercice est prêt à être téléchargé.</p>
-<button id="download">Télécharger le PDF académique</button>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 const {jsPDF}=window.jspdf;
 function makePDF(){
- const d=new jsPDF({unit:'mm',format:'a4'}), L=18, R=192, W=R-L;
- let y=18, page=1;
- function footer(){d.setFont('times','normal');d.setFontSize(8);d.text('Finance Verte - Cas réel InvestEU Solaria',L,287);d.text('Page '+page,R,287,{align:'right'});}
- function newPage(){footer();d.addPage();page++;y=18;}
- function title(t,s=15){d.setFont('times','bold');d.setFontSize(s);const a=d.splitTextToSize(t,W);d.text(a,105,y,{align:'center'});y+=a.length*6+4;}
- function h(t){if(y>260)newPage();d.setFont('times','bold');d.setFontSize(12);const a=d.splitTextToSize(t,W);d.text(a,L,y);y+=a.length*5.5+3;}
- function p(t,bold=false){d.setFont('times',bold?'bold':'normal');d.setFontSize(10);const a=d.splitTextToSize(t,W);if(y+a.length*4.7>270)newPage();d.text(a,L,y,{maxWidth:W,align:'justify'});y+=a.length*4.7+3;}
- function box(label,text){const a=d.splitTextToSize(label+' '+text,W-8);const hh=a.length*4.7+8;if(y+hh>270)newPage();d.setDrawColor(60);d.rect(L,y-4,W,hh);d.setFont('times','normal');d.setFontSize(10);d.text(a,L+4,y+1);y+=hh+5;}
- title('Cas réel InvestEU - Solaria European PV Green Loan',16);
- d.setFont('times','normal');d.setFontSize(10);d.text("Exercice de comité d'investissement - version complète avec corrections et explications",105,y,{align:'center'});y+=12;
- p("Objectif pédagogique. Analyser un dossier réel comme un comité d'investissement, formuler une décision autonome à partir du Scoreboard officiel InvestEU, puis comparer cette décision à celle effectivement prise par l'Investment Committee.");
- p("Principe de l'exercice. Le Scoreboard sert à instruire la décision. Les Conclusions officielles ne sont consultées qu'après le vote du comité, afin d'éviter d'orienter le raisonnement des étudiants.");
- h("1. Comprendre l'opération avant de juger");
- box('Question.','Avant même de parler de garantie publique, quels éléments faut-il comprendre pour considérer qu’il s’agit d’une opération d’infrastructure verte crédible ?');
- box('Correction.',"Le premier travail du comité est de distinguer le projet physique de son montage financier. L'actif est clairement identifiable : production solaire photovoltaïque à grande échelle, déployée dans trois pays, avec un portefeuille important et des besoins de raccordement au réseau. Le comité doit ensuite vérifier que le projet répond à un objectif public éligible et que le financement proposé traite effectivement une difficulté que le marché ne résout pas seul. Une analyse crédible doit couvrir la technologie, la taille du portefeuille, les pays d'implantation, les besoins de raccordement, le sponsor, le partenaire financier, le calendrier et les principaux risques d'exécution.");
- box('Idée clé.','Une technologie verte ne suffit pas à justifier une intervention publique. Il faut aussi démontrer le besoin de financement, l’additionalité et la cohérence du montage.');
- newPage();
- h('2. Identifier la défaillance de marché');
- box('Question.','Pourquoi une garantie InvestEU peut-elle être pertinente alors que le solaire est déjà une technologie mature ? Distinguez le bénéfice environnemental du problème de financement.');
- box('Correction.',"Deux logiques doivent être séparées. Premièrement, la production solaire réduit des externalités négatives liées au carbone et à la pollution atmosphérique. Deuxièmement, un programme de construction de très grande ampleur peut rencontrer des contraintes de financement : maturité insuffisante, appétit bancaire limité, exposition au risque marchand ou difficulté à mobiliser rapidement un volume important de dette. Le rôle du comité n'est donc pas seulement de vérifier que le projet est vert : il doit établir qu'une contrainte financière existe réellement et que la garantie publique contribue à la corriger.");
- box('Idée clé.','La justification économique d’InvestEU repose sur une combinaison : objectif public + défaillance de marché + besoin de financement.');
- h('3. Tester l’additionalité');
- box('Question.','Si le projet pouvait être financé exactement aux mêmes conditions sans InvestEU, l’opération serait-elle encore additionnelle ? Quels éléments du Scoreboard faut-il rechercher ?');
- box('Correction.',"Non. L'additionalité suppose que l'intervention apporte quelque chose que le marché n'aurait pas fourni de manière équivalente. Le comité doit examiner la maturité proposée, la flexibilité du financement de construction, le risque marchand assumé, la rapidité de déploiement et la capacité à financer le portefeuille même lorsqu'une partie des actifs n'est pas encore couverte par un PPA au financial close. L'argument pertinent est que l'EIB permet une structure, une maturité ou un partage du risque qui ne seraient pas aisément disponibles aux mêmes conditions sur le marché commercial.");
- box('Idée clé.','Additionalité ≠ simple présence d’un acteur public. Elle correspond à une amélioration identifiable du financement, du partage du risque, de la maturité ou de la capacité de réalisation.');
- newPage();
- h('4. Prendre la décision du comité');
- box('Décision.','Sur la base du Scoreboard uniquement, quelle recommandation formulez-vous : APPROVE, APPROVE WITH CONDITIONS ou REJECT / DEFER ? Justifiez votre choix à partir de quatre dimensions.');
- p('APPROVE : le dossier justifie suffisamment l’usage de la garantie.');
- p('APPROVE WITH CONDITIONS : le dossier est acceptable, sous réserve de conditions ou de points de vigilance.');
- p('REJECT / DEFER : les éléments disponibles ne suffisent pas ou l’additionalité n’est pas démontrée.');
- box('Grille de correction.',"Une recommandation solide doit relier quatre dimensions : contribution environnementale ; défaillance de marché ; additionalité du financement ; principal risque ou condition à surveiller. Une réponse approve ou approve with conditions peut être défendable si elle est correctement argumentée. L'objectif n'est pas de deviner la réponse officielle mais de produire un raisonnement de comité cohérent.");
- box('Idée clé.','Un comité ne vote pas sur la technologie seule : il vote sur une opération complète, avec son objectif, sa structure financière, ses risques et la justification de l’intervention publique.');
- p('Avant de passer à la décision réelle, les étudiants doivent annoncer leur vote et formuler une justification courte, comme dans une vraie réunion de comité.');
- newPage();
- h('5. Découvrir la décision réelle du comité InvestEU');
- box('Décision officielle : APPROVED.',"L'Investment Committee du Fonds InvestEU a approuvé le 6 juillet 2023 l'utilisation de la garantie InvestEU pour l'opération Solaria European PV Green Loan.");
- p("Les Conclusions officielles retiennent notamment deux idées : d'une part, la réduction des externalités climatiques et environnementales ; d'autre part, l'additionalité du financement. L'EIB apporte une structure de financement significative et flexible pour un programme de construction de grande ampleur, alors que les banques commerciales restent réticentes à offrir un financement comparable avec une exposition au risque marchand et une maturité similaire.");
- box('Question de débrief.','Votre vote était-il le même ? Si non, quel élément aviez-vous sous-pondéré : impact, défaillance de marché, additionalité, risque ou structure financière ?');
- box('Message final.','Le Scoreboard sert à instruire la décision ; les Conclusions permettent ensuite d’observer comment un comité réel a finalement arbitré. L’intérêt pédagogique est de prendre d’abord une décision autonome, puis de la confronter à la décision officielle.');
- h('Synthèse - Les cinq questions d’un comité d’investissement vert');
- p('1. Que finance-t-on ? Nature de l’actif, technologie, taille, sponsor, pays, calendrier.');
- p('2. Pourquoi l’intervention publique ? Objectif public et défaillance de marché clairement identifiée.');
- p('3. Quelle additionalité ? Ce que le financement public apporte au-delà du marché commercial.');
- p('4. Quels risques ? Construction, marché, raccordement, prix, exécution, structure financière.');
- p('5. Quelle décision ? Approve, approve with conditions, reject/defer - avec justification explicite.');
- p('Conclusion. Le cas Solaria montre que la finance verte ne consiste pas uniquement à identifier un actif bas-carbone. La décision d’un comité porte sur la combinaison entre impact environnemental, nécessité économique de l’intervention, qualité du financement, additionalité et risques.');
- footer();
- d.save('Cas_reel_InvestEU_Solaria_Exercice_corrige_academique_v2.pdf');
+  const d=new jsPDF({unit:'mm',format:'a4'});
+  const L=24,R=186,W=R-L,C=105;
+  let y=22,page=1;
+  d.setProperties({title:'Cas réel InvestEU - Solaria European PV Green Loan',author:'Badr ABOUFARASSE',subject:"Exercice de comité d'investissement - Finance Verte"});
+
+  function footer(){
+    d.setDrawColor(120); d.setLineWidth(.2); d.line(L,282,R,282);
+    d.setFont('times','italic'); d.setFontSize(7.7); d.setTextColor(70);
+    d.text('Finance Verte — Cas réel InvestEU Solaria',L,287);
+    d.text(String(page),R,287,{align:'right'});
+    d.setTextColor(0);
+  }
+  function newPage(){footer();d.addPage();page++;y=22;}
+  function ensure(h){if(y+h>274)newPage();}
+  function centerTitle(text,size=17){
+    d.setFont('times','bold');d.setFontSize(size);d.setTextColor(0);
+    const lines=d.splitTextToSize(text,150);d.text(lines,C,y,{align:'center'});y+=lines.length*6.8+3;
+  }
+  function centerSub(text,size=10){
+    d.setFont('times','normal');d.setFontSize(size);const lines=d.splitTextToSize(text,150);d.text(lines,C,y,{align:'center'});y+=lines.length*4.5+7;
+  }
+  function section(text){
+    ensure(14);d.setFont('times','bold');d.setFontSize(12.2);d.setTextColor(0);d.text(text,L,y);y+=7;
+  }
+  function para(text,opt={}){
+    const size=opt.size||10.1, style=opt.style||'normal', gap=opt.gap??4.2;
+    d.setFont('times',style);d.setFontSize(size);d.setTextColor(0);
+    const lines=d.splitTextToSize(text,W);const h=lines.length*4.55+gap;ensure(h);
+    d.text(lines,L,y,{maxWidth:W,align:opt.align||'justify'});y+=h;
+  }
+  function labelPara(label,text,opt={}){
+    ensure(16);
+    d.setFont('times','bold');d.setFontSize(opt.size||10.1);d.text(label,L,y);
+    const labelW=d.getTextWidth(label+' ');
+    d.setFont('times',opt.italic?'italic':'normal');
+    const firstW=W-labelW;
+    const words=text.split(/\s+/);let first='',rest='';
+    while(words.length){const candidate=(first?first+' ':'')+words[0];if(d.getTextWidth(candidate)<=firstW){first=candidate;words.shift();}else break;}
+    d.text(first,L+labelW,y);
+    rest=words.join(' ');y+=4.6;
+    if(rest){const lines=d.splitTextToSize(rest,W);d.text(lines,L,y,{maxWidth:W,align:'justify'});y+=lines.length*4.55;}
+    y+=opt.gap??4;
+  }
+  function rule(){d.setDrawColor(70);d.setLineWidth(.3);d.line(L,y,R,y);y+=5;}
+  function simpleTable(rows,widths){
+    const total=widths.reduce((a,b)=>a+b,0),scale=W/total,ws=widths.map(v=>v*scale);
+    const rowHeights=[];
+    rows.forEach((row,i)=>{
+      let mh=0;row.forEach((cell,j)=>{d.setFont('times',i===0?'bold':'normal');d.setFontSize(9.2);const ls=d.splitTextToSize(cell,ws[j]-4);mh=Math.max(mh,ls.length*4.1+5);});rowHeights.push(mh);
+    });
+    const totalH=rowHeights.reduce((a,b)=>a+b,0)+1;ensure(totalH+5);
+    let yy=y;
+    d.setDrawColor(40);d.setLineWidth(.35);d.line(L,yy,R,yy);
+    rows.forEach((row,i)=>{
+      let x=L;const rh=rowHeights[i];
+      row.forEach((cell,j)=>{d.setFont('times',i===0?'bold':'normal');d.setFontSize(9.2);d.setTextColor(0);const ls=d.splitTextToSize(cell,ws[j]-4);d.text(ls,x+2,yy+4.5);x+=ws[j];});
+      yy+=rh;d.setLineWidth(i===0?.25:.12);d.setDrawColor(i===0?70:180);d.line(L,yy,R,yy);
+    });
+    y=yy+7;
+  }
+
+  // PAGE 1
+  centerTitle('Cas réel InvestEU — Solaria European PV Green Loan',17.5);
+  centerSub("Exercice de comité d’investissement — version complète avec corrections et explications",10.2);
+  rule();
+  labelPara('Objectif pédagogique. ',"Analyser un dossier réel comme un comité d’investissement, formuler une décision autonome à partir du Scoreboard officiel InvestEU, puis comparer cette décision à celle effectivement prise par l’Investment Committee.");
+  labelPara('Principe de l’exercice. ',"Le Scoreboard sert à instruire la décision. Les Conclusions officielles ne sont consultées qu’après le vote du comité, afin d’éviter d’orienter le raisonnement des étudiants.");
+  y+=2;
+  simpleTable([
+    ['Élément','Information'],
+    ['Technologie','Solaire photovoltaïque'],
+    ['Portefeuille','Environ 120 centrales'],
+    ['Capacité totale','Environ 5,6 GW'],
+    ['Pays','Espagne, Italie, Portugal'],
+    ['Partenaire de mise en œuvre','Banque européenne d’investissement (EIB)']
+  ],[48,114]);
+  section('1. Comprendre l’opération avant de juger');
+  labelPara('Question. ',"Avant même de parler de garantie publique, quels éléments faut-il comprendre pour considérer qu’il s’agit d’une opération d’infrastructure verte crédible ?",{italic:true});
+  labelPara('Correction. ',"Le premier travail du comité est de distinguer le projet physique de son montage financier. L’actif est clairement identifiable : production solaire photovoltaïque à grande échelle, déployée dans trois pays, avec un portefeuille important et des besoins de raccordement au réseau. Le comité doit ensuite vérifier que le projet répond à un objectif public éligible et que le financement proposé traite effectivement une difficulté que le marché ne résout pas seul.");
+  para("Une analyse crédible doit donc couvrir au minimum la technologie et sa maturité, la taille du portefeuille, les pays d’implantation, les besoins de raccordement, le sponsor, le partenaire financier, le calendrier de construction et les principaux risques d’exécution.");
+  labelPara('Idée clé. ',"Une technologie verte ne suffit pas à justifier une intervention publique. Il faut aussi démontrer le besoin de financement, l’additionalité et la cohérence du montage.",{italic:true});
+  newPage();
+
+  // PAGE 2
+  section('2. Identifier la défaillance de marché');
+  labelPara('Question. ',"Pourquoi une garantie InvestEU peut-elle être pertinente alors que le solaire est déjà une technologie mature ? Distinguez le bénéfice environnemental du problème de financement.",{italic:true});
+  labelPara('Correction. ',"Deux logiques doivent être séparées. Premièrement, la production solaire réduit des externalités négatives liées au carbone et à la pollution atmosphérique. Deuxièmement, un programme de construction de très grande ampleur peut rencontrer des contraintes de financement : maturité insuffisante, appétit bancaire limité, exposition au risque marchand ou difficulté à mobiliser rapidement un volume important de dette.");
+  para("Le rôle du comité n’est donc pas seulement de vérifier que le projet est « vert ». Il doit établir qu’une contrainte financière existe réellement et que la garantie publique contribue à la corriger.");
+  labelPara('Idée clé. ',"La justification économique d’InvestEU repose sur une combinaison : objectif public + défaillance de marché + besoin de financement.",{italic:true});
+  y+=4;
+  section('3. Tester l’additionalité');
+  labelPara('Question. ',"Si le projet pouvait être financé exactement aux mêmes conditions sans InvestEU, l’opération serait-elle encore additionnelle ? Quels éléments du Scoreboard faut-il rechercher ?",{italic:true});
+  labelPara('Correction. ',"Non. L’additionalité suppose que l’intervention apporte quelque chose que le marché n’aurait pas fourni de manière équivalente. Dans ce cas, le comité doit examiner la maturité proposée, la flexibilité du financement de construction, le risque marchand assumé, la rapidité de déploiement et la capacité à financer le portefeuille même lorsqu’une partie des actifs n’est pas encore couverte par un PPA au financial close.");
+  para("L’argument pertinent n’est donc pas « l’EIB finance un projet vert », mais plutôt : l’EIB permet une structure, une maturité ou un partage du risque qui ne seraient pas aisément disponibles aux mêmes conditions sur le marché commercial.");
+  labelPara('Idée clé. ',"Additionalité ≠ simple présence d’un acteur public. Elle correspond à une amélioration identifiable du financement, du partage du risque, de la maturité ou de la capacité de réalisation.",{italic:true});
+  newPage();
+
+  // PAGE 3
+  section('4. Prendre la décision du comité');
+  labelPara('Question. ',"Sur la base du Scoreboard uniquement, quelle recommandation formulez-vous : APPROVE, APPROVE WITH CONDITIONS ou REJECT / DEFER ? Justifiez votre choix à partir de quatre dimensions.",{italic:true});
+  simpleTable([
+    ['Option','Interprétation'],
+    ['APPROVE','Le dossier justifie suffisamment l’usage de la garantie.'],
+    ['APPROVE WITH CONDITIONS','Le dossier est acceptable, sous réserve de conditions ou de points de vigilance.'],
+    ['REJECT / DEFER','Les éléments disponibles ne suffisent pas ou l’additionalité n’est pas démontrée.']
+  ],[55,107]);
+  labelPara('Grille de correction. ',"Une recommandation solide doit relier quatre dimensions : contribution environnementale ; défaillance de marché ; additionalité du financement ; principal risque ou condition à surveiller.");
+  para("Une réponse « approve » ou « approve with conditions » peut être défendable si elle est correctement argumentée. L’objectif n’est pas de deviner la réponse officielle mais de produire un raisonnement de comité cohérent. Une formulation professionnelle doit expliquer pourquoi le projet est éligible et vert, en quoi le financement traite un problème réel, ce que l’intervention publique ajoute par rapport au marché, et quelles limites ou conditions doivent rester sous surveillance.");
+  labelPara('Idée clé. ',"Un comité ne vote pas sur la technologie seule : il vote sur une opération complète, avec son objectif, sa structure financière, ses risques et la justification de l’intervention publique.",{italic:true});
+  y+=4;
+  para("Avant de passer à la page suivante, les étudiants doivent annoncer leur vote et formuler une justification courte, comme dans une vraie réunion de comité.",{style:'italic'});
+  newPage();
+
+  // PAGE 4
+  section('5. Découvrir la décision réelle du comité InvestEU');
+  labelPara('Décision officielle : APPROVED. ',"L’Investment Committee du Fonds InvestEU a approuvé le 6 juillet 2023 l’utilisation de la garantie InvestEU pour l’opération Solaria European PV Green Loan.");
+  para("Les Conclusions officielles retiennent notamment deux idées : d’une part, la réduction des externalités climatiques et environnementales ; d’autre part, l’additionalité du financement. L’EIB apporte une structure de financement significative et flexible pour un programme de construction de grande ampleur, alors que les banques commerciales restent réticentes à offrir un financement comparable avec une exposition au risque marchand et une maturité similaire.");
+  labelPara('Question de débrief. ',"Votre vote était-il le même ? Si non, quel élément aviez-vous sous-pondéré : impact, défaillance de marché, additionalité, risque ou structure financière ?",{italic:true});
+  labelPara('Message final. ',"Le Scoreboard sert à instruire la décision ; les Conclusions permettent ensuite d’observer comment un comité réel a finalement arbitré. L’intérêt pédagogique est de prendre d’abord une décision autonome, puis de la confronter à la décision officielle.",{italic:true});
+  y+=4;
+  section('Synthèse — Les cinq questions d’un comité d’investissement vert');
+  simpleTable([
+    ['Question','Ce que le comité cherche à établir'],
+    ['1. Que finance-t-on ?','Nature de l’actif, technologie, taille, sponsor, pays, calendrier.'],
+    ['2. Pourquoi l’intervention publique ?','Objectif public et défaillance de marché clairement identifiée.'],
+    ['3. Quelle additionalité ?','Ce que le financement public apporte au-delà du marché commercial.'],
+    ['4. Quels risques ?','Construction, marché, raccordement, prix, exécution, structure financière.'],
+    ['5. Quelle décision ?','Approve, approve with conditions, reject/defer — avec justification explicite.']
+  ],[58,104]);
+  labelPara('Conclusion. ',"Le cas Solaria montre que la finance verte ne consiste pas uniquement à identifier un actif bas-carbone. La décision d’un comité porte sur la combinaison entre impact environnemental, nécessité économique de l’intervention, qualité du financement, additionalité et risques. La qualité de la décision dépend donc autant du raisonnement financier que du caractère « vert » du projet.");
+  para("Documents de référence : Scoreboard officiel InvestEU — Solaria European PV Green Loan ; Conclusions officielles de l’Investment Committee InvestEU.",{size:8.5,style:'italic',align:'left',gap:0});
+  footer();
+  d.save('Cas_reel_InvestEU_Solaria_AER_style.pdf');
 }
-document.getElementById('download').addEventListener('click',makePDF);
-setTimeout(makePDF,400);
+setTimeout(makePDF,250);
 </script>
-</body></html>
+</body>
+</html>
