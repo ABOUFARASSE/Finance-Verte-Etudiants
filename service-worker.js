@@ -20,13 +20,32 @@ self.addEventListener('fetch',event=>{
       if(!html.includes('toc-comite-aquasmart')) html=html.replace(tocTarget,tocInsert);
 
       const sectionTarget='<section id="synthèse-de-la-séance" class="level1">';
-      const appSection='<section id="comite-aquasmart" class="level1">\n<h1>11. Application — Comité d’investissement AquaSmart</h1>\n<p>Cette application met les étudiants en situation de comité d’investissement autour d’un projet de recyclage intelligent de l’eau. L’objectif est de comprendre, en cinq étapes simples, comment passer de la décision actuelle à la valeur de l’information puis à une recommandation managériale.</p>\n<div class="callout callout-style-default callout-note callout-titled"><div class="callout-header d-flex align-content-center"><div class="callout-icon-container"><i class="callout-icon"></i></div><div class="callout-title-container flex-fill">Déroulé conseillé</div></div><div class="callout-body-container callout-body"><p><strong>20 à 30 minutes, en groupes de 2 à 3.</strong> Les étudiants suivent cinq étapes : décider aujourd’hui, comprendre l’EVPI, évaluer l’EVSI d’un pilote, vérifier l’ENBS, puis formuler une recommandation de comité. Un mini-test de sensibilité permet d’identifier le coût maximal acceptable du pilote.</p></div></div>\n<p><a href="/Finance-Verte-Etudiants/seance5/comite-aquasmart/?v=20261003-simple" target="_blank" class="btn btn-primary" role="button">Ouvrir l’application en plein écran</a></p>\n<div style="margin:1.2rem 0 2rem;border:1px solid #d8e0e8;border-radius:14px;overflow:hidden;background:#fff;"><iframe src="/Finance-Verte-Etudiants/seance5/comite-aquasmart/?v=20261003-simple" title="Comité d’investissement AquaSmart" style="width:100%;height:1120px;border:0;display:block;" loading="lazy"></iframe></div>\n</section>\n';
+      const appSection='<section id="comite-aquasmart" class="level1">\n<h1>11. Application — Comité d’investissement AquaSmart</h1>\n<p>Cette application met les étudiants en situation de comité d’investissement autour d’un projet de recyclage intelligent de l’eau. L’objectif est de comprendre, en cinq étapes simples, comment passer de la décision actuelle à la valeur de l’information puis à une recommandation managériale.</p>\n<div class="callout callout-style-default callout-note callout-titled"><div class="callout-header d-flex align-content-center"><div class="callout-icon-container"><i class="callout-icon"></i></div><div class="callout-title-container flex-fill">Déroulé conseillé</div></div><div class="callout-body-container callout-body"><p><strong>20 à 30 minutes, en groupes de 2 à 3.</strong> Les étudiants suivent cinq étapes : décider aujourd’hui, comprendre l’EVPI, évaluer l’EVSI d’un pilote, vérifier l’ENBS, puis formuler une recommandation de comité. Un mini-test de sensibilité permet d’identifier le coût maximal acceptable du pilote.</p></div></div>\n<p><a href="/Finance-Verte-Etudiants/seance5/comite-aquasmart/?v=20261004-toggle" target="_blank" class="btn btn-primary" role="button">Ouvrir l’application en plein écran</a></p>\n<div style="margin:1.2rem 0 2rem;border:1px solid #d8e0e8;border-radius:14px;overflow:hidden;background:#fff;"><iframe src="/Finance-Verte-Etudiants/seance5/comite-aquasmart/?v=20261004-toggle" title="Comité d’investissement AquaSmart" style="width:100%;height:1120px;border:0;display:block;" loading="lazy"></iframe></div>\n</section>\n';
       if(!html.includes('id="comite-aquasmart"')) html=html.replace(sectionTarget,appSection+sectionTarget);
 
       html=html.replace('<h1>11. Synthèse de la séance</h1>','<h1>12. Synthèse de la séance</h1>');
       html=html.replace('>11. Synthèse de la séance</a>','>12. Synthèse de la séance</a>');
       html=html.replace('<h1>12. Transition vers la séance 6</h1>','<h1>13. Transition vers la séance 6</h1>');
       html=html.replace('>12. Transition vers la séance 6</a>','>13. Transition vers la séance 6</a>');
+    }
+
+    if(url.pathname.startsWith('/Finance-Verte-Etudiants/seance5/comite-aquasmart/')){
+      const toggleScript=`<script>
+      window.reveal=function(id){
+        const panel=document.getElementById(id);
+        if(!panel) return;
+        const isOpen=panel.classList.toggle('show');
+        const btn=[...document.querySelectorAll('button[onclick]')].find(b=>{
+          const a=b.getAttribute('onclick')||'';
+          return a.includes("reveal('"+id+"')") || a.includes('reveal("'+id+'")');
+        });
+        if(btn){
+          btn.textContent=isOpen?'Masquer la correction':'Afficher la correction';
+          btn.setAttribute('aria-expanded',isOpen?'true':'false');
+        }
+      };
+      </script>`;
+      html=html.replace('</body>',toggleScript+'</body>');
     }
 
     const headers=new Headers(res.headers);
