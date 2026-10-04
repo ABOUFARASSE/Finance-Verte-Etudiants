@@ -21,7 +21,7 @@ self.addEventListener('fetch',event=>{
     }
 
     if(solariaPage){
-      const dl='<div class="btnrow" style="margin-top:14px"><a class="btn green" href="/Finance-Verte-Etudiants/cas-solaria/pdf.html?v=20261005-exact-aer" target="solariaPdfDownload">Télécharger le PDF académique complet ↓</a></div><iframe name="solariaPdfDownload" title="Téléchargement PDF Solaria" style="display:none"></iframe>';
+      const dl='<div class="btnrow" style="margin-top:14px"><a class="btn green" href="/Finance-Verte-Etudiants/cas-solaria/pdf.html?v=20261005-aer-final" target="solariaPdfDownload">Télécharger le PDF académique complet ↓</a></div><iframe name="solariaPdfDownload" title="Téléchargement PDF Solaria" style="display:none"></iframe>';
       const anchor='<div class="brief"><strong>Règle de l’exercice.</strong> Commencez par le Scoreboard. À chaque étape, formulez votre avis sur l’opération. Ne consultez les Conclusions officielles qu’après avoir pris votre propre décision de comité.</div>';
       if(!html.includes('target="solariaPdfDownload"')) html=html.replace(anchor,anchor+dl);
     }
