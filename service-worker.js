@@ -20,16 +20,10 @@ self.addEventListener('fetch',event=>{
       html=html.replace('</head>',theme+'</head>').replace(/<body([^>]*)>/i,'<body$1>'+bar);
     }
 
-    if(homePage){
-      const target='<a class="btn" href="cas-solaria/">Ouvrir le cas réel <span class="arr">→</span></a>';
-      const replacement=target+' <a class="btn" href="cas-solaria/download-pdf.html?v=20261004-2" style="background:#0f766e;margin-left:8px;">Télécharger le PDF <span class="arr">↓</span></a>';
-      if(!html.includes('download-pdf.html?v=20261004-2')) html=html.replace(target,replacement);
-    }
-
     if(solariaPage){
-      const dl='<div class="btnrow" style="margin-top:14px"><a class="btn green" href="/Finance-Verte-Etudiants/cas-solaria/download-pdf.html?v=20261004-2">Télécharger le PDF académique complet ↓</a></div>';
+      const dl='<div class="btnrow" style="margin-top:14px"><a class="btn green" href="/Finance-Verte-Etudiants/cas-solaria/pdf.html" target="solariaPdfDownload">Télécharger le PDF académique complet ↓</a></div><iframe name="solariaPdfDownload" title="Téléchargement PDF Solaria" style="display:none"></iframe>';
       const anchor='<div class="brief"><strong>Règle de l’exercice.</strong> Commencez par le Scoreboard. À chaque étape, formulez votre avis sur l’opération. Ne consultez les Conclusions officielles qu’après avoir pris votre propre décision de comité.</div>';
-      if(!html.includes('Télécharger le PDF académique complet')) html=html.replace(anchor,anchor+dl);
+      if(!html.includes('target="solariaPdfDownload"')) html=html.replace(anchor,anchor+dl);
     }
 
     if(url.pathname==='/Finance-Verte-Etudiants/seance5/' || url.pathname==='/Finance-Verte-Etudiants/seance5/index.html'){
