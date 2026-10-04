@@ -4,15 +4,33 @@ self.addEventListener('fetch',event=>{
   const req=event.request;
   if(req.mode!=='navigate') return;
   const url=new URL(req.url);
-  if(!/\/Finance-Verte-Etudiants\/(?:seance[1-6]|evaluation-finale)\//.test(url.pathname)) return;
+  const coursePage=/\/Finance-Verte-Etudiants\/(?:seance[1-6]|evaluation-finale)\//.test(url.pathname);
+  const homePage=url.pathname==='/Finance-Verte-Etudiants/' || url.pathname==='/Finance-Verte-Etudiants/index.html';
+  const solariaPage=url.pathname==='/Finance-Verte-Etudiants/cas-solaria/' || url.pathname==='/Finance-Verte-Etudiants/cas-solaria/index.html';
+  if(!coursePage && !homePage && !solariaPage) return;
   event.respondWith((async()=>{
     const res=await fetch(req,{cache:'no-store'});
     const type=res.headers.get('content-type')||'';
     if(!type.includes('text/html')) return res;
     let html=await res.text();
-    const theme='<link rel="stylesheet" href="/Finance-Verte-Etudiants/course-theme.css">';
-    const bar='<div class="course-topbar"><div class="brand"><span class="dot"></span><a href="/Finance-Verte-Etudiants/">Finance Verte — Badr ABOUFARASSE</a></div><div class="navlinks"><a href="/Finance-Verte-Etudiants/seance1/">Séance 1</a><a href="/Finance-Verte-Etudiants/seance2/">Séance 2</a><a href="/Finance-Verte-Etudiants/seance3/">Séance 3</a><a href="/Finance-Verte-Etudiants/seance4/">Séance 4</a><a href="/Finance-Verte-Etudiants/seance5/">Séance 5</a><a href="/Finance-Verte-Etudiants/seance6/">Séance 6</a><a href="/Finance-Verte-Etudiants/evaluation-finale/">Évaluation finale</a><a href="/Finance-Verte-Etudiants/">Accueil</a></div></div>';
-    html=html.replace('</head>',theme+'</head>').replace(/<body([^>]*)>/i,'<body$1>'+bar);
+
+    if(coursePage){
+      const theme='<link rel="stylesheet" href="/Finance-Verte-Etudiants/course-theme.css">';
+      const bar='<div class="course-topbar"><div class="brand"><span class="dot"></span><a href="/Finance-Verte-Etudiants/">Finance Verte — Badr ABOUFARASSE</a></div><div class="navlinks"><a href="/Finance-Verte-Etudiants/seance1/">Séance 1</a><a href="/Finance-Verte-Etudiants/seance2/">Séance 2</a><a href="/Finance-Verte-Etudiants/seance3/">Séance 3</a><a href="/Finance-Verte-Etudiants/seance4/">Séance 4</a><a href="/Finance-Verte-Etudiants/seance5/">Séance 5</a><a href="/Finance-Verte-Etudiants/seance6/">Séance 6</a><a href="/Finance-Verte-Etudiants/evaluation-finale/">Évaluation finale</a><a href="/Finance-Verte-Etudiants/">Accueil</a></div></div>';
+      html=html.replace('</head>',theme+'</head>').replace(/<body([^>]*)>/i,'<body$1>'+bar);
+    }
+
+    if(homePage){
+      const target='<a class="btn" href="cas-solaria/">Ouvrir le cas réel <span class="arr">→</span></a>';
+      const replacement=target+' <a class="btn" href="cas-solaria/download-pdf.html?v=20261004-2" style="background:#0f766e;margin-left:8px;">Télécharger le PDF <span class="arr">↓</span></a>';
+      if(!html.includes('download-pdf.html?v=20261004-2')) html=html.replace(target,replacement);
+    }
+
+    if(solariaPage){
+      const dl='<div class="btnrow" style="margin-top:14px"><a class="btn green" href="/Finance-Verte-Etudiants/cas-solaria/download-pdf.html?v=20261004-2">Télécharger le PDF académique complet ↓</a></div>';
+      const anchor='<div class="brief"><strong>Règle de l’exercice.</strong> Commencez par le Scoreboard. À chaque étape, formulez votre avis sur l’opération. Ne consultez les Conclusions officielles qu’après avoir pris votre propre décision de comité.</div>';
+      if(!html.includes('Télécharger le PDF académique complet')) html=html.replace(anchor,anchor+dl);
+    }
 
     if(url.pathname==='/Finance-Verte-Etudiants/seance5/' || url.pathname==='/Finance-Verte-Etudiants/seance5/index.html'){
       const tocTarget='<li><a href="#synthèse-de-la-séance" id="toc-synthèse-de-la-séance" class="nav-link" data-scroll-target="#synthèse-de-la-séance">11. Synthèse de la séance</a>';
